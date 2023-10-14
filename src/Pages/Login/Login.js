@@ -8,8 +8,6 @@ function Login() {
 
     const handleSubmitLogin = (e) => {
         e.preventDefault();
-        setEmail('');
-        setPassword('');
       };
 
     return (
@@ -56,7 +54,7 @@ function Login() {
                                                         />
                                                         <i className="input-icon uil uil-lock-alt" />
                                                     </div>
-                                                    <a href="/" className="btn mt-4" onClick={handleSubmitLogin}>
+                                                    <a href="/" className="btn mt-4" type='submit' onSubmit={handleSubmitLogin}>
                                                         Login
                                                     </a>
                                                     <p className="mb-0 mt-4 text-center">
