@@ -68,14 +68,14 @@ function Home() {
                         onSelect={handleSelect}
                     >
                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                            <div key={suggestions.description} className="form-group text-center">
+                            <div className="form-group ">
                                 <input
                                     {...getInputProps({
                                         placeholder: 'Source',
                                         className: 'location-search-input form-control'
                                     })}
                                 />
-                                <div className="autocomplete-dropdown-container">
+                                <div key={suggestions.description} className="autocomplete-dropdown-container">
                                     {loading && <div>Loading...</div>}
                                     {suggestions.map(suggestion => {
                                         const className = suggestion.active
@@ -102,20 +102,19 @@ function Home() {
                         onSelect={handleSelectDest}
                     >
                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                            <div key={suggestions.description} className="form-group text-center">
+                            <div className="form-group">
                                 <input
                                     {...getInputProps({
                                         placeholder: 'Destination',
                                         className: 'location-search-input form-control'
                                     })}
                                 />
-                                <div className="autocomplete-dropdown-container">
+                                <div key={suggestions.description} className="autocomplete-dropdown-container zcheck">
                                     {loading && <div>Loading...</div>}
                                     {suggestions.map(suggestion => {
                                         const className = suggestion.active
                                             ? 'suggestion-item--active'
                                             : 'suggestion-item';
-                                        // inline style for demonstration purpose
                                         return (
                                             <div
                                                 {...getSuggestionItemProps(suggestion, {
