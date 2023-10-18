@@ -1,4 +1,9 @@
 import { React, useState } from 'react';
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng,
+} from 'react-places-autocomplete';
+import './Homeinput.css'
 import './Home.css';
 
 function Home() {
@@ -23,27 +28,110 @@ function Home() {
         },
     ]);
 
+    // source coordinates 
+    const [address, setAddress] = useState('')
+    const [coordinates, setCoordinates] = useState({
+        lat: null,
+        lng: null
+    })
+
+    const handleSelect = async value => {
+        const results = await geocodeByAddress(value);
+        const ll = await getLatLng(results[0])
+        console.log(ll)
+        setAddress(value)
+        setCoordinates(ll)
+    }
+
+    // destination coordinates 
+    const [daddress, setDaddress] = useState('')
+    const [dcoord, setDcoord] = useState({
+        lat: null,
+        lng: null
+    })
+
+    const handleSelectDest = async value => {
+        const results = await geocodeByAddress(value);
+        const ll = await getLatLng(results[0])
+        console.log(ll)
+        setDaddress(value)
+        setDcoord(ll)
+    }
+
     return (
         <>
             <div className='container'>
                 <form>
-                    <div className="form-group text-center">
-                        <input
-                            type="text"
-                            className="form-control" // Use Bootstrap form-control class
-                            id="source"
-                            placeholder='Source'
-                        />
-                    </div>
-                    <br/>
-                    <div className="form-group text-center"> 
-                        <input
-                            type="text"
-                            className="form-control" // Use Bootstrap form-control class
-                            id="destination"
-                            placeholder='Destination'
-                        />
-                    </div>
+                    <PlacesAutocomplete
+                        value={address}
+                        onChange={setAddress}
+                        onSelect={handleSelect}
+                    >
+                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                            <div key={suggestions.description} className="form-group text-center">
+                                <input
+                                    {...getInputProps({
+                                        placeholder: 'Source',
+                                        className: 'location-search-input form-control'
+                                    })}
+                                />
+                                <div className="autocomplete-dropdown-container">
+                                    {loading && <div>Loading...</div>}
+                                    {suggestions.map(suggestion => {
+                                        const className = suggestion.active
+                                            ? 'suggestion-item--active'
+                                            : 'suggestion-item';
+                                        return (
+                                            <div
+                                                {...getSuggestionItemProps(suggestion, {
+                                                    className
+                                                })}
+                                            >
+                                                <span>{suggestion.description}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </PlacesAutocomplete>
+                    <br />
+                    <PlacesAutocomplete
+                        value={daddress}
+                        onChange={setDaddress}
+                        onSelect={handleSelectDest}
+                    >
+                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                            <div key={suggestions.description} className="form-group text-center">
+                                <input
+                                    {...getInputProps({
+                                        placeholder: 'Destination',
+                                        className: 'location-search-input form-control'
+                                    })}
+                                />
+                                <div className="autocomplete-dropdown-container">
+                                    {loading && <div>Loading...</div>}
+                                    {suggestions.map(suggestion => {
+                                        const className = suggestion.active
+                                            ? 'suggestion-item--active'
+                                            : 'suggestion-item';
+                                        // inline style for demonstration purpose
+                                        return (
+                                            <div
+                                                {...getSuggestionItemProps(suggestion, {
+                                                    className,
+                                                })}
+                                            >
+                                                <span>{suggestion.description}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </PlacesAutocomplete>
+
+                    {/* search button */}
                     <div className="text-center"> {/* Center the button */}
                         <button type="submit" className="btn btn-primary submit">
                             Search
