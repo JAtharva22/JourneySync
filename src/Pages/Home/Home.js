@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useRef } from 'react';
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
@@ -28,6 +28,7 @@ function Home() {
         },
     ]);
 
+
     // source coordinates 
     const [address, setAddress] = useState('')
     const [coordinates, setCoordinates] = useState({
@@ -41,6 +42,24 @@ function Home() {
         console.log(ll)
         setAddress(value)
         setCoordinates(ll)
+    }
+    // get current location
+    const findCurrent = (e) => {
+        e.preventDefault()
+        const success = (position) => {
+            const newCoordinates = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            };
+            setCoordinates(newCoordinates);
+            const coordinatesString = `lat: ${newCoordinates.lat}, lng: ${newCoordinates.lng}`;
+            console.log(coordinatesString)
+        }
+        const errorCurrent = () => {
+            console.log('got an error')
+
+        }
+        navigator.geolocation.getCurrentPosition(success, errorCurrent)
     }
 
     // destination coordinates 
@@ -74,6 +93,7 @@ function Home() {
                                         placeholder: 'Source',
                                         className: 'location-search-input form-control'
                                     })}
+                                    value={coordinates.lat ? `${coordinates.lat} and ${coordinates.lng}` : ''}
                                 />
                                 <div key={suggestions.description} className="autocomplete-dropdown-container">
                                     {loading && <div>Loading...</div>}
@@ -95,6 +115,14 @@ function Home() {
                             </div>
                         )}
                     </PlacesAutocomplete>
+                    <br />
+
+                    <div className='text-center'>
+                        <button onClick={findCurrent} className="btn btn-success ">
+                            Get Your Location
+                        </button>
+                    </div>
+
                     <br />
                     <PlacesAutocomplete
                         value={daddress}
@@ -137,6 +165,7 @@ function Home() {
                         </button>
                     </div>
                 </form>
+                <br />
                 <div>
                     {/* map */}
                 </div>
