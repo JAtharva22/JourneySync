@@ -1,4 +1,4 @@
-import { React, useState, useRef } from 'react';
+import { React, useState, useEffect } from 'react';
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
@@ -29,11 +29,25 @@ function Home() {
     ]);
 
 
+    useEffect(() => {
+        fetch('http://localhost:5000/')
+            .then(response => response.json())
+            .then(userIDs => {
+                console.log(userIDs)
+                // const filteredData = data.filter(user => userIDs.includes(user.id));
+                // console.log(filteredData)
+                // setData(filteredData);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
     // source coordinates 
     const [address, setAddress] = useState('')
     const [coordinates, setCoordinates] = useState({
-        lat: null,
-        lng: null
+        srclat: null,
+        srclng: null
     })
 
     const handleSelect = async value => {
@@ -48,11 +62,11 @@ function Home() {
         e.preventDefault()
         const success = (position) => {
             const newCoordinates = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
+                srclat: position.coords.latitude,
+                srclng: position.coords.longitude,
             };
             setCoordinates(newCoordinates);
-            const coordinatesString = `lat: ${newCoordinates.lat}, lng: ${newCoordinates.lng}`;
+            const coordinatesString = `lat: ${newCoordinates.srclat}, lng: ${newCoordinates.srclng}`;
             console.log(coordinatesString)
         }
         const errorCurrent = () => {
@@ -65,8 +79,8 @@ function Home() {
     // destination coordinates 
     const [daddress, setDaddress] = useState('')
     const [dcoord, setDcoord] = useState({
-        lat: null,
-        lng: null
+        destlat: null,
+        destlng: null
     })
 
     const handleSelectDest = async value => {
@@ -74,13 +88,48 @@ function Home() {
         const ll = await getLatLng(results[0])
         console.log(ll)
         setDaddress(value)
-        setDcoord(ll)
+        setDcoord({
+            destlat: ll.lat,
+            destlng: ll.lng
+        })
+    }
+
+    // handleSubmit
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const dataToSend = {
+            ...coordinates,
+            ...dcoord,
+        };
+        console.log(dataToSend)
+
+        fetch('http://localhost:5000/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Set the content type to JSON
+            },
+            body: JSON.stringify(dataToSend), // Convert the data to JSON format
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Handle the API response data
+            })
+            .catch((error) => {
+                // Handle errors
+                console.error('Error:', error);
+            });
+
     }
 
     return (
         <>
             <div className='container'>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <PlacesAutocomplete
                         value={address}
                         onChange={setAddress}
@@ -93,7 +142,7 @@ function Home() {
                                         placeholder: 'Source',
                                         className: 'location-search-input form-control'
                                     })}
-                                    value={coordinates.lat ? `${coordinates.lat} and ${coordinates.lng}` : ''}
+                                    // value={coordinates.srclat ? `${coordinates.srclat} and ${coordinates.srclng}` : ''}
                                 />
                                 <div key={suggestions.description} className="autocomplete-dropdown-container">
                                     {loading && <div>Loading...</div>}
@@ -199,16 +248,3 @@ function Home() {
 }
 
 export default Home;
-
-
-// const [data, useData] = useState([])
-// useEffect(() => {
-//     fetch('https://api.tvmaze.com/search/shows?q=all')
-//         .then(response => response.json())
-//         .then(result => {
-//             setData(result);
-//         })
-//         .catch(error => {
-//             console.error(error);
-//         });
-// }, []); 
