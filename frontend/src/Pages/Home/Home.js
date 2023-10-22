@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect, useState, useRef } from 'react';
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
@@ -13,41 +13,58 @@ function Home() {
             name: 'Om',
             location: '50 meters',
             number: 11111111111,
+            scord: { lat: 19.0269249, lng: 72.8478554 },
+            dcord: { lat: 19.0641877, lng: 72.8351758 }
         },
         {
             id: 2,
             name: 'John',
             location: '100 meters',
             number: 22222222222,
+            scord: { lat: 19.0322634, lng: 72.8454553 },
+            dcord: { lat: 19.0641877, lng: 72.8351758 }
         },
         {
             id: 3,
             name: 'Alice',
             location: '200 meters',
             number: 33333333333,
+            scord: { lat: 19.0269249, lng: 72.9478554 },
+            dcord: { lat: 12.0641877, lng: 72.8351758 }
+        },
+        {
+            id: 4,
+            name: 'Sairaj',
+            location: '250 meters',
+            number: 98190122023,
+            scord: { lat: 19.0549903, lng: 72.840237 },
+            dcord: { lat: 19.0644647, lng: 72.8358602 }
+        },
+        {
+            id: 3,
+            name: 'Suraj',
+            location: '500 meters',
+            number: 985151615105,
+            scord: { lat: 19.0549903, lng: 72.840237 },
+            dcord: { lat: 19.0660073, lng: 72.83450420000001 }
         },
     ]);
 
-
-    useEffect(() => {
-        fetch('http://localhost:5000/')
-            .then(response => response.json())
-            .then(userIDs => {
-                console.log(userIDs)
-                // const filteredData = data.filter(user => userIDs.includes(user.id));
-                // console.log(filteredData)
-                // setData(filteredData);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+    const [listdata, setListdata] = useState([
+        {
+            id: 1,
+            name: 'Nobody Nearby',
+            location: '',
+            number: "",
+            scord: { lat: 19.0269249, lng: 72.8478554 },
+            dcord: { lat: 19.0641877, lng: 72.8351758 }
+        }]);
 
     // source coordinates 
     const [address, setAddress] = useState('')
     const [coordinates, setCoordinates] = useState({
-        srclat: null,
-        srclng: null
+        lat: null,
+        lng: null
     })
 
     const handleSelect = async value => {
@@ -57,30 +74,12 @@ function Home() {
         setAddress(value)
         setCoordinates(ll)
     }
-    // get current location
-    const findCurrent = (e) => {
-        e.preventDefault()
-        const success = (position) => {
-            const newCoordinates = {
-                srclat: position.coords.latitude,
-                srclng: position.coords.longitude,
-            };
-            setCoordinates(newCoordinates);
-            const coordinatesString = `lat: ${newCoordinates.srclat}, lng: ${newCoordinates.srclng}`;
-            console.log(coordinatesString)
-        }
-        const errorCurrent = () => {
-            console.log('got an error')
-
-        }
-        navigator.geolocation.getCurrentPosition(success, errorCurrent)
-    }
 
     // destination coordinates 
     const [daddress, setDaddress] = useState('')
     const [dcoord, setDcoord] = useState({
-        destlat: null,
-        destlng: null
+        lat: null,
+        lng: null
     })
 
     const handleSelectDest = async value => {
@@ -88,48 +87,92 @@ function Home() {
         const ll = await getLatLng(results[0])
         console.log(ll)
         setDaddress(value)
-        setDcoord({
-            destlat: ll.lat,
-            destlng: ll.lng
-        })
+        setDcoord(ll)
     }
 
-    // handleSubmit
-    const handleSubmit = (e) => {
+    const findCurrent = (e) => {
+        e.preventDefault()
+        const success = (position) => {
+            const newCoordinates = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            };
+            setCoordinates(newCoordinates);
+            const coordinatesString = `lat: ${newCoordinates.lat}, lng: ${newCoordinates.lng}`;
+            console.log(coordinatesString)
+            // value={coordinates.lat ? `${coordinates.lat}, ${coordinates.lng}` : ''}
+
+        }
+        const errorCurrent = () => {
+            console.log('got an error')
+        }
+        navigator.geolocation.getCurrentPosition(success, errorCurrent)
+    }
+
+
+    function haversineDistance(coord1, coord2) {
+        const R = 6371; // Radius of the Earth in kilometers
+        const lat1 = (coord1.lat * Math.PI) / 180;
+        const lat2 = (coord2.lat * Math.PI) / 180;
+        const lon1 = (coord1.lng * Math.PI) / 180;
+        const lon2 = (coord2.lng * Math.PI) / 180;
+
+        const dLat = lat2 - lat1;
+        const dLon = lon2 - lon1;
+
+        const a =
+            Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const distance = R * c; // Distance in kilometers
+
+        return distance;
+    }
+
+    function handlesearch(e) {
         e.preventDefault();
-        const dataToSend = {
-            ...coordinates,
-            ...dcoord,
-        };
-        console.log(dataToSend)
 
-        fetch('http://localhost:5000/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json', // Set the content type to JSON
-            },
-            body: JSON.stringify(dataToSend), // Convert the data to JSON format
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // Handle the API response data
-            })
-            .catch((error) => {
-                // Handle errors
-                console.error('Error:', error);
-            });
+        const sourceUser = coordinates; // Target user's coordinates
+        const destUser = dcoord;
 
+
+        const nearbyUsers = [];
+        const finalUsers = [];
+        const userdataa = [];
+
+        data.forEach(item => {
+            const scordObject = item.scord;
+            userdataa.push(scordObject);
+
+        });
+
+        for (const user of userdataa) {
+            const distance = haversineDistance(sourceUser, user);
+            if (distance <= 0.5) { // Check if the distance is less than or equal to 0.5 kilometers (500 meters)
+                nearbyUsers.push(user);
+            }
+        }
+
+        for (let i = 0; i < nearbyUsers.length; i++) {
+
+            const filteredData = data.filter(item => item.scord === nearbyUsers[i]);
+            const distance = haversineDistance(destUser, filteredData[0].dcord);
+            if (distance <= 0.5) {
+                finalUsers.push(filteredData[0]);
+            }
+        }
+
+        if (finalUsers.length !== 0) {
+            setListdata(finalUsers)
+        }
     }
 
     return (
         <>
             <div className='container'>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <PlacesAutocomplete
                         value={address}
                         onChange={setAddress}
@@ -142,7 +185,9 @@ function Home() {
                                         placeholder: 'Source',
                                         className: 'location-search-input form-control'
                                     })}
-                                    // value={coordinates.srclat ? `${coordinates.srclat} and ${coordinates.srclng}` : ''}
+                                // value = {coordinates.lat + ', ' + coordinates.lng}
+                                // ref={}
+                                // value={coordinates.lat ? `${coordinates.lat}, ${coordinates.lng}` : ''}
                                 />
                                 <div key={suggestions.description} className="autocomplete-dropdown-container">
                                     {loading && <div>Loading...</div>}
@@ -185,6 +230,7 @@ function Home() {
                                         placeholder: 'Destination',
                                         className: 'location-search-input form-control'
                                     })}
+
                                 />
                                 <div key={suggestions.description} className="autocomplete-dropdown-container zcheck">
                                     {loading && <div>Loading...</div>}
@@ -209,17 +255,16 @@ function Home() {
 
                     {/* search button */}
                     <div className="text-center"> {/* Center the button */}
-                        <button type="submit" className="btn btn-primary submit">
+                        <button type="submit" className="btn btn-primary submit" onClick={handlesearch}>
                             Search
                         </button>
                     </div>
                 </form>
-                <br />
                 <div>
                     {/* map */}
                 </div>
                 <div>
-                    {data.map((user) => (
+                    {listdata.map((user) => (
                         <div className="container ribbonbody " key={user.id}>
                             <h3 className="namecss">
                                 <span>{user.name}</span>
@@ -248,3 +293,16 @@ function Home() {
 }
 
 export default Home;
+
+
+// const [data, useData] = useState([])
+// useEffect(() => {
+//     fetch('https://api.tvmaze.com/search/shows?q=all')
+//         .then(response => response.json())
+//         .then(result => {
+//             setData(result);
+//         })
+//         .catch(error => {
+//             console.error(error);
+//         });
+// }, []); 

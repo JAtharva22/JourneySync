@@ -1,3 +1,17 @@
+.navbar{
+  color: indigo !important;
+  background: linear-gradient(180deg,
+  #eaeeff 0%,
+  rgba(234, 238, 255, 0.96875) 80%,
+  rgba(234, 238, 255, 0.125) 100%);
+  height: 100px;
+}
+
+.font-color{
+  color: indigo !important;
+}
+
+
 /* Profile Picture */
 .profile-pic{
     display: inline-block;
@@ -26,8 +40,7 @@
    border-bottom: 0.3em solid;
  }
 
-
  .container-fluid{
-    display: flex;
+    display: flex !important;
     gap: 58rem;
  }

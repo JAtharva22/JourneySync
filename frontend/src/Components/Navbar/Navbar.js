@@ -3,12 +3,11 @@ import './Navbar.css'
 
 const Navbar = () => {
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg ">
             <div className="container-fluid">
                 <div>
-                    <a className="navbar-brand ms-auto" href="/">
-                        <h1>
-                            
+                    <a className="navbar-brand ms-auto font-color" href="/">
+                        <h1>                            
                         JourneySync
                         </h1>
                     </a>
@@ -27,12 +26,12 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item mx-2">
-                            <a className="nav-link active" aria-current="page" href="/chat">
+                            <a className="nav-link active font-color" aria-current="page" href="/chat">
                                 Chat
                             </a>
                         </li>
                         <li className="nav-item mx-4">
-                            <a className="nav-link active" aria-current="page" href="/login">
+                            <a className="nav-link active font-color" aria-current="page" href="/login">
                                 Login
                             </a>
                         </li>
@@ -41,7 +40,7 @@ const Navbar = () => {
                         <li className="nav-item dropdown">
                             <a
                                 className="nav-link dropdown-toggle"
-                                href="/"
+                                href="/profile"
                                 id="navbarDropdown"
                                 role="button"
                                 data-bs-toggle="dropdown"

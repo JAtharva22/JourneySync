@@ -26,12 +26,12 @@ function UserProfile() {
 
   return (
     <>
-      <div className="container mx-10 my-5 p-5 proheader">
+      <div className="container  mx-10 my-5 p-5 proheader">
         <h2>
           {"{"}user{"}"}
         </h2>
       </div>
-      <div className="container mx-10 my-5 py-10">
+      <div className="container mx-10 my-5 py-10 container-user">
         <h3>Update Your Personal Information</h3>
         <label htmlFor="name" className="emailspace">
           Login email
@@ -77,11 +77,11 @@ function UserProfile() {
       </div>
       {/* ------------ */}
       {userinfo.isVerified === 'true' ? (
-        <div className="container mx-10">
+        <div className="container mx-10 container-user">
           <h3 className="verified">Your Account is Verified</h3>
         </div>
       ) : userinfo.isVerified === 'false' ? (
-        <div className="container mx-10">
+        <div className="container mx-10 container-user">
           <h3 id="h3verify">Verify Your Account</h3>
           <form onSubmit={verificationSubmit}>
             <div className="form-group">
@@ -102,7 +102,7 @@ function UserProfile() {
           </form>
         </div>
       ) : (
-        <div className="container mx-10 pendingverification">
+        <div className="container mx-10 pendingverification container-user">
           <h3 >Verification pending</h3>
           <br />
           <h3 >Please Be Patient</h3>
