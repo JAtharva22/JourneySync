@@ -1,8 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './Login.css'
 
-function Login({ authtoken, setAuthtoken }) {
+function Login() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const authToken = localStorage.getItem('authToken');
+        if (authToken) {
+            navigate("/")
+        }
+    }, []);
+
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -10,7 +20,6 @@ function Login({ authtoken, setAuthtoken }) {
     const [name, setName] = useState('')
     const [gender, setGender] = useState('')
 
-    const navigate = useNavigate();
 
     const handleSubmitLogin = async (e) => {
         e.preventDefault();
@@ -27,10 +36,10 @@ function Login({ authtoken, setAuthtoken }) {
         })
 
         let json = await response.json()
-        if (json.success){
+        if (json.success) {
             localStorage.setItem('authToken', json.authtoken);
             navigate('/')
-        }else{
+        } else {
             alert("Invalid Credentials");
         }
 
@@ -50,9 +59,15 @@ function Login({ authtoken, setAuthtoken }) {
                 'Content-Type': 'application/json'
             }
         })
-        var token = await response.json()
-        console.log(token.authtoken)
-        setAuthtoken(token.authtoken)
+
+        let json = await response.json()
+        if (json.success) {
+            localStorage.setItem('authToken', json.authtoken);
+            navigate('/')
+        } else {
+            alert("Invalid Credentials");
+        }
+
     };
 
     return (
@@ -130,7 +145,7 @@ function Login({ authtoken, setAuthtoken }) {
                                                             <option selected>Gender</option>
                                                             <option value="Male">Male</option>
                                                             <option value="Female">Female</option>
-
+                                                            <option value="Female">Other</option>
                                                         </select>
                                                         <i className="input-icon uil uil-social-distancing" />
                                                     </div>
