@@ -6,8 +6,21 @@ function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmitLogin = (e) => {
-        e.preventDefault();
+    const handleSubmitLogin = async(e) => {
+        
+        // e.preventDefault();
+        console.log('hello')
+        //post request
+        const response = await fetch("http://localhost:5000/api/auth/login", {
+            method: 'POST',
+            body: JSON.stringify({
+                email, password
+            }),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        console.log(response.json())
       };
 
     return (
@@ -54,9 +67,9 @@ function Login() {
                                                         />
                                                         <i className="input-icon uil uil-lock-alt" />
                                                     </div>
-                                                    <a href="/" className="btn mt-4" type='submit' onSubmit={handleSubmitLogin}>
+                                                    <button className="btn mt-4" type='submit' onClick={handleSubmitLogin}>
                                                         Login
-                                                    </a>
+                                                    </button>
                                                     <p className="mb-0 mt-4 text-center">
                                                         <a href="/" className="link">
                                                             Forgot your password?
