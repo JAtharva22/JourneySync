@@ -8,7 +8,6 @@ function Login() {
 
     const handleSubmitLogin = async(e) => {
         
-        // e.preventDefault();
         console.log('hello')
         //post request
         const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -21,6 +20,7 @@ function Login() {
             }
         })
         console.log(response.json())
+        e.preventDefault();
       };
 
     return (

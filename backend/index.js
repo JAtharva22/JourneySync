@@ -12,6 +12,7 @@ const port = 5000
 
 // Available Routes
 app.use('/api/auth', require('./routes/auth'))
+app.use('/api/list', require('./routes/list'))
 
 
 app.listen(port, () => {

@@ -29,7 +29,4 @@ const UserSchema = new Schema({
     },
 });
 const User = mongoose.model('user', UserSchema);
-User.createCollection().then(function (collection) {
-    console.log('Collection is created!');
-});
 module.exports = User;
