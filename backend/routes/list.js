@@ -69,7 +69,6 @@ router.delete('/deletelist', fetchuser, async (req, res) => {
         if (!list) {
             return res.status(404).json({success, message: "List Not Found" });
         }
-
         // Delete the list item
         await List.deleteOne({ userId: req.user.id });
         success = true
