@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
 import './Login.css'
 
-function Login() {
+function Login({authtoken, setAuthtoken}) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [age, setAge] = useState('')
+    const [name, setName] = useState('')
+    const [gender, setGender] = useState('')
 
     const handleSubmitLogin = async(e) => {
         
+<<<<<<< HEAD
         console.log('hello')
+=======
+        e.preventDefault();
+      
+>>>>>>> c8930b67ee3c05c3ce9a06a6076fc6b2c8d30f30
         //post request
         const response = await fetch("http://localhost:5000/api/auth/login", {
             method: 'POST',
@@ -19,8 +27,32 @@ function Login() {
                 'Content-Type': 'application/json'
             }
         })
+<<<<<<< HEAD
         console.log(response.json())
         e.preventDefault();
+=======
+        var token = await response.json()
+        setAuthtoken(token.authtoken)
+      };
+
+      const handleSubmitRegister = async(e) => {
+        
+        e.preventDefault();
+        
+        //post request
+        const response = await fetch("http://localhost:5000/api/auth/createuser", {
+            method: 'POST',
+            body: JSON.stringify({
+                email, password, age, name, gender
+            }),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        var token = await response.json()
+        console.log(token.authtoken)
+        setAuthtoken(token.authtoken)
+>>>>>>> c8930b67ee3c05c3ce9a06a6076fc6b2c8d30f30
       };
 
     return (
@@ -87,22 +119,39 @@ function Login() {
                                                             type="text"
                                                             className="form-style"
                                                             placeholder="Full Name"
+                                                            value={name}
+                                                            onChange={(event) => setName(event.target.value)}
                                                         />
                                                         <i className="input-icon uil uil-user" />
                                                     </div>
                                                     <div className="form-group mt-2">
+                                                    <select className="form-style" value={gender}
+                                                        onChange={(event) => setGender(event.target.value)}>
+                                                        <option selected>Gender</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        
+                                                    </select> 
+                                                        <i className="input-icon uil uil-social-distancing" />
+                                                    </div>
+                                                    <div className="form-group mt-2">
                                                         <input
-                                                            type="tel"
+                                                            type="number"
                                                             className="form-style"
-                                                            placeholder="Phone Number"
+                                                            placeholder="Age"
+                                                            min="13" max="100"
+                                                            value={age}
+                                                            onChange={(event) => setAge(event.target.value)}
                                                         />
-                                                        <i className="input-icon uil uil-phone" />
+                                                        <i className="input-icon uil uil-calender" />
                                                     </div>
                                                     <div className="form-group mt-2">
                                                         <input
                                                             type="email"
                                                             className="form-style"
                                                             placeholder="Email"
+                                                            value={email}
+                                                            onChange={(event) => setEmail(event.target.value)}
                                                         />
                                                         <i className="input-icon uil uil-at" />
                                                     </div>
@@ -111,12 +160,14 @@ function Login() {
                                                             type="password"
                                                             className="form-style"
                                                             placeholder="Password"
+                                                            value={password}
+                                                            onChange={(event) => setPassword(event.target.value)}
                                                         />
                                                         <i className="input-icon uil uil-lock-alt" />
                                                     </div>
-                                                    <a href='/' className="btn mt-4">
+                                                     <button className="btn mt-4" type='submit' onClick={handleSubmitRegister}>
                                                         Register
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
