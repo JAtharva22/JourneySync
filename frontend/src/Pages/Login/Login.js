@@ -14,7 +14,7 @@ function Login({authtoken, setAuthtoken}) {
         e.preventDefault();
       
         //post request
-        const response = await fetch("http://localhost:5001/api/auth/login", {
+        const response = await fetch("http://localhost:5000/api/auth/login", {
             method: 'POST',
             body: JSON.stringify({
                 email, password
@@ -32,7 +32,7 @@ function Login({authtoken, setAuthtoken}) {
         e.preventDefault();
         
         //post request
-        const response = await fetch("http://localhost:5001/api/auth/createuser", {
+        const response = await fetch("http://localhost:5000/api/auth/createuser", {
             method: 'POST',
             body: JSON.stringify({
                 email, password, age, name, gender
