@@ -111,4 +111,34 @@ router.post('/getuser', fetchuser, async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 })
-module.exports = router
+
+// ROUTE 4: Get loggedin User Details using: POST "/api/auth/getuser". Login required
+router.put('/updateuser', fetchuser, async (req, res) => {
+    try {
+        // Get the updated fields from the request body
+        const { name, age } = req.body;
+
+        // Create a new user object with the updated fields
+        const updatedUser = {};
+        if (name) updatedUser.name = name;
+        if (age) updatedUser.age = age;
+
+        // Update the user information in the database
+        const user = await User.findOneAndUpdate(
+            { _id: req.user.id }, // Assuming you have user's ID in req.user.id
+            { $set: updatedUser },
+            { new: true } // To return the updated user
+        );
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: "User not found" });
+        }
+
+        res.json({ success: true, user });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+});
+
+module.exports = router;

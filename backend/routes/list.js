@@ -61,22 +61,22 @@ router.put('/updatelist', fetchuser, async (req, res) => {
 
 // ROUTE 3: Delete an existing Listitem using: DELETE "/api/lists/deletelist". Login required
 router.delete('/deletelist', fetchuser, async (req, res) => {
+    let success = false
     try {
         // Find the list item to be deleted
         const list = await List.findOne({ userId: req.user.id });
-
         // Check if the list item exists
         if (!list) {
-            return res.status(404).json({ message: "List Not Found" });
+            return res.status(404).json({success, message: "List Not Found" });
         }
 
         // Delete the list item
         await List.deleteOne({ userId: req.user.id });
-
-        res.json({ message: "List has been deleted" });
+        success = true
+        res.json({ success, message: "List has been deleted" });
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Internal Server Error");
+        res.status(500).json({success, message : "Internal Server Error"});
     }
 });
 

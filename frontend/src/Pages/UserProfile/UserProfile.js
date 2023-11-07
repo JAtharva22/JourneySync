@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import './UserProfile.css'
 
 
@@ -7,11 +8,13 @@ function UserProfile() {
   const [userinfo, setUserinfo] = useState({
     name: '',
     email: '',
-    phone: '',
+    age: '',
     isVerified: 'false' //'pending' , 'true'
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]; // Get the selected file
@@ -22,13 +25,83 @@ function UserProfile() {
     setUserinfo({ ...userinfo, isVerified: 'pending' });
   }
 
+  const handleDiscard = (e) => {
+    e.preventDefault();
+    if (userData) {
+      setUserinfo({
+        name: userData.name,
+        email: userData.email,
+        age: userData.age,
+      });
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/getuser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth-token': localStorage.getItem('authToken')
+          },
+        });
+        if (response.ok) {
+          const fetchedUserData = await response.json();
+          setUserData(fetchedUserData);
+          setUserinfo({
+            name: fetchedUserData.name,
+            email: fetchedUserData.email,
+            age: fetchedUserData.age,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchUserDetails();
+  }, []);
+
+  const updateUserInformation = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/updateuser", {
+        method: 'PUT',
+        body: JSON.stringify({
+          name: userinfo.name,
+          age: userinfo.age,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': localStorage.getItem('authToken')
+        }
+      })
+      if (response.status === 200) {
+        (function showSuccess() {
+          setShowSuccessMessage(true);
+          setTimeout(() => {
+            setShowSuccessMessage(false);
+          }, 5000);
+        })();
+        setUserData({
+          ...userData,
+          name: userinfo.name,
+          email: userinfo.email,
+        })
+      }
+    } catch (error) {
+      console.error(error);
+      // Handle errors, e.g., display an error message
+    }
+  };
+
+
 
 
   return (
     <>
       <div className="container  mx-10 my-5 p-5 proheader">
         <h2>
-          {"{"}user{"}"}
+          {userinfo.name}
         </h2>
       </div>
       <div className="container mx-10 my-5 py-10 container-user">
@@ -41,7 +114,7 @@ function UserProfile() {
           readOnly=""
           className="form-control-plaintext readonlyemail"
           id="staticEmail"
-          defaultValue="{userEmail}"
+          defaultValue={userinfo.email}
         />
         <p className="emailcantchange">Your Login email can't be changed</p>
         <form>
@@ -52,38 +125,47 @@ function UserProfile() {
                 type="text"
                 className="form-control"
                 id="name"
-                defaultValue="(Name)"
+                value={userinfo.name} // Use "value" to display user data
+                onChange={(e) => setUserinfo({ ...userinfo, name: e.target.value })}
               />
             </div>
             <div className="form-group col-md-6">
-              <label htmlFor="number">Phone</label>
+              <label htmlFor="number">Age</label>
               <input
                 type="text"
                 className="form-control"
                 id="number"
-                defaultValue="(Number)"
+                value={userinfo.age} // Use "value" to display user data
+                onChange={(e) => setUserinfo({ ...userinfo, age: e.target.value })}
               />
             </div>
           </div>
+          {/* Success message div */}
+          {showSuccessMessage && (
+            <>
+              <br />
+              <div className="alert alert-success">Your information has been updated.</div>
+            </>
+          )}
           <div className="d-flex">
-            <button type="submit" className="btn btn-primary submit">
+            <button type="button" className="btn btn-primary submit" onClick={updateUserInformation}>
               Update
             </button>
-            <button type="discard" className="btn discard mx-2">
+            <button type="discard" className="btn discard mx-2" onClick={handleDiscard}>
               Discard
             </button>
           </div>
         </form>
       </div>
       {/* ------------ */}
-      {userinfo.isVerified === 'true' ? (
+      {userinfo.isVerified === 'false' ? (
         <div className="container mx-10 container-user">
           <h3 className="verified">Your Account is Verified</h3>
         </div>
       ) : userinfo.isVerified === 'false' ? (
         <div className="container mx-10 container-user">
           <h3 id="h3verify">Verify Your Account</h3>
-          <form onSubmit={verificationSubmit}>
+          <form >
             <div className="form-group">
               <label htmlFor="exampleFormControlFile1">
                 Submit aadhar for verification (PDF, JPEG, PNG)

@@ -10,10 +10,9 @@ const Footer = () => {
                         <div className="col-xl-3 col-md-6 col-lg-3">
                             <div className="footer_widget">
                                 <h3 className="footer_title">
-                                    <img src='' alt="Your Logo" /><br />
-                                    <p className="footer_text">SmartLegalX was developed and designed by the founder
-                                        of Technovate in 2023 with the collaboration
-                                        of a team of four members.</p>
+                                    <img src='https://martech.org/wp-content/uploads/2017/09/Customer-Journey.png' alt="Your Logo" /><br />
+                                    <p className="footer_text">JourneySync was developed and designed for College Project in 2023 with the collaboration
+                                        of a team of three members.</p>
                                 </h3>
                             </div>
                         </div>
@@ -24,11 +23,7 @@ const Footer = () => {
                                 </h3>
                                 <ul>
                                     <li><a href="/">Home</a></li>
-                                    <li><a href="http://localhost:8000">Chatbot</a></li>
-                                    <li><a href="/textsum">Summarizer</a></li>
-                                    <li><a href="/lawyers">Ask Lawyer</a></li>
-                                    <li><a href="/docum">Document Maker</a></li>
-                                    <li><a href="/resource">Resources</a></li>
+                                    <li><a href="/chat">Chat</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -37,11 +32,7 @@ const Footer = () => {
                                 <h3 className="footer_title">
                                     Address
                                 </h3>
-                                <p className="footer_text"> H-Block, Lohia Road ,<br />
-                                    Sector -63, Noida, Uttar Pradesh <br /> 201301, IN</p>
-                                <p className="footer_text">+10 367 267 2678 <br />
-                                    reservation@mastroom.com</p>
-                                <a href="#" className="line-button">Get Direction</a>
+                                <p className="footer_text"> Noida, Uttar Pradesh <br /> 201301, IN</p>
                             </div>
                         </div>
                         <div className="col-xl-3 col-md-6 col-lg-3">
@@ -85,7 +76,7 @@ const Footer = () => {
                         <div className="col-12">
                             <p className="copy_right">
                                 {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                                Copyright © All rights reserved 2023| MastRoom
+                                Copyright © All rights reserved 2023| JourneySync
                                 {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
                             </p>
                         </div>

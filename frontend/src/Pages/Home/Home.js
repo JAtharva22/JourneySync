@@ -169,6 +169,26 @@ function Home() {
         }
     }
 
+    const [searching, setSearching] = useState(true);
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch("http://localhost:5000/api/list/deletelist", {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': localStorage.getItem('authToken')
+                }
+            })
+            console.log(localStorage.getItem('authToken'))
+            console.log(response.success)
+            setSearching(false)
+        } catch (error) {
+            console.error(error);
+            setSearching(false)
+            // Handle errors, e.g., display an error message
+        }
+    };
     return (
         <>
             <div className='container'>
@@ -258,6 +278,13 @@ function Home() {
                         <button type="submit" className="btn btn-primary submit" onClick={handlesearch}>
                             Search
                         </button>
+                        {
+                            searching && (
+                                <button className="btn discard mx-2" onClick={handleDelete}>
+                                    Stop Searching
+                                </button>
+                            )
+                        }
                     </div>
                 </form>
                 <div>
@@ -293,16 +320,3 @@ function Home() {
 }
 
 export default Home;
-
-
-// const [data, useData] = useState([])
-// useEffect(() => {
-//     fetch('https://api.tvmaze.com/search/shows?q=all')
-//         .then(response => response.json())
-//         .then(result => {
-//             setData(result);
-//         })
-//         .catch(error => {
-//             console.error(error);
-//         });
-// }, []); 
