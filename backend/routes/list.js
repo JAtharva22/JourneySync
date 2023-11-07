@@ -18,7 +18,7 @@ router.post('/addlist', fetchuser, [
                 return res.status(400).json({ errors: errors.array() });
             }
             const list = new List({
-                src, dest, user: req.user.id
+                src, dest, userId: req.user.id
             })
             const savedNote = await list.save()
 
@@ -33,6 +33,7 @@ router.post('/addlist', fetchuser, [
 // ROUTE 3: Update an existing List using: PUT "/api/lists/updatelist". Login required
 router.put('/updatelist/:id', fetchuser, async (req, res) => {
     const { src, dest } = req.body;
+    console.log('req.body')
     try {
         // Create a newList object
         const newList = {};
@@ -43,7 +44,7 @@ router.put('/updatelist/:id', fetchuser, async (req, res) => {
         let list = await List.findById(req.params.id);
         if (!list) { return res.status(404).send("Not Found") }
 
-        if (list.user.toString() !== req.user.id) {
+        if (list.userId.toString() !== req.user.id) {
             return res.status(401).send("Not Allowed");
         }
         list = await List.findByIdAndUpdate(req.params.id, { $set: newList }, { new: true })
@@ -55,15 +56,15 @@ router.put('/updatelist/:id', fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 4: Delete an existing Listitem using: DELETE "/api/lists/deletelistitem". Login required
-router.delete('/deletelistitem/:id', fetchuser, async (req, res) => {
+// ROUTE 4: Delete an existing Listitem using: DELETE "/api/lists/deletelist". Login required
+router.delete('/deletelist/:id', fetchuser, async (req, res) => {
     try {
         // Find the list to be delete and delete it
         let list = await List.findById(req.params.id);
         if (!list) { return res.status(404).send("Not Found") }
 
         // Allow deletion only if user owns this List
-        if (list.user.toString() !== req.user.id) {
+        if (list.userId.toString() !== req.user.id) {
             return res.status(401).send("Not Allowed");
         }
 

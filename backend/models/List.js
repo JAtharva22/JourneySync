@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const ListSchema = new Schema({
     userId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'user',
     },
     src:{
         type: Number,
