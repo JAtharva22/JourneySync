@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './Login.css'
 
-function Login({authtoken, setAuthtoken}) {
+function Login({ authtoken, setAuthtoken }) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -9,51 +10,50 @@ function Login({authtoken, setAuthtoken}) {
     const [name, setName] = useState('')
     const [gender, setGender] = useState('')
 
-    const handleSubmitLogin = async(e) => {
-        
-<<<<<<< HEAD
-        console.log('hello')
-=======
+    const navigate = useNavigate();
+
+    const handleSubmitLogin = async (e) => {
         e.preventDefault();
-      
->>>>>>> c8930b67ee3c05c3ce9a06a6076fc6b2c8d30f30
+        let success = false;
         //post request
         const response = await fetch("http://localhost:5000/api/auth/login", {
             method: 'POST',
             body: JSON.stringify({
                 email, password
             }),
-            headers:{
+            headers: {
                 'Content-Type': 'application/json'
             }
         })
-<<<<<<< HEAD
-        console.log(response.json())
-        e.preventDefault();
-=======
-        var token = await response.json()
-        setAuthtoken(token.authtoken)
-      };
 
-      const handleSubmitRegister = async(e) => {
-        
+        let json = await response.json()
+        if (json.success){
+            localStorage.setItem('authToken', json.authtoken);
+            navigate('/')
+        }else{
+            alert("Invalid Credentials");
+        }
+
+    };
+
+    const handleSubmitRegister = async (e) => {
+
         e.preventDefault();
-        
+
         //post request
         const response = await fetch("http://localhost:5000/api/auth/createuser", {
             method: 'POST',
             body: JSON.stringify({
                 email, password, age, name, gender
             }),
-            headers:{
+            headers: {
                 'Content-Type': 'application/json'
             }
         })
         var token = await response.json()
         console.log(token.authtoken)
         setAuthtoken(token.authtoken)
->>>>>>> c8930b67ee3c05c3ce9a06a6076fc6b2c8d30f30
-      };
+    };
 
     return (
         <div>
@@ -125,13 +125,13 @@ function Login({authtoken, setAuthtoken}) {
                                                         <i className="input-icon uil uil-user" />
                                                     </div>
                                                     <div className="form-group mt-2">
-                                                    <select className="form-style" value={gender}
-                                                        onChange={(event) => setGender(event.target.value)}>
-                                                        <option selected>Gender</option>
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
-                                                        
-                                                    </select> 
+                                                        <select className="form-style" value={gender}
+                                                            onChange={(event) => setGender(event.target.value)}>
+                                                            <option selected>Gender</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+
+                                                        </select>
                                                         <i className="input-icon uil uil-social-distancing" />
                                                     </div>
                                                     <div className="form-group mt-2">
@@ -165,7 +165,7 @@ function Login({authtoken, setAuthtoken}) {
                                                         />
                                                         <i className="input-icon uil uil-lock-alt" />
                                                     </div>
-                                                     <button className="btn mt-4" type='submit' onClick={handleSubmitRegister}>
+                                                    <button className="btn mt-4" type='submit' onClick={handleSubmitRegister}>
                                                         Register
                                                     </button>
                                                 </div>
