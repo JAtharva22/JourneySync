@@ -5,5 +5,4 @@ const mongoURI = "mongodb+srv://admin:journeysyncthadomalproject@journeysync.3yv
 const connectToMongo = ()=>{
     mongoose.connect(mongoURI);
 }
-
 module.exports = connectToMongo;
