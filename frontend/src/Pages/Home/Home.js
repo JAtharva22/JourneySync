@@ -16,6 +16,7 @@ function Home() {
     const [listdata, setListdata] = useState([{
         userId: "654a1669d81865efe35106c3",
         name: 'Nobody nearby for a ride',
+        phone: '',
         scord: { lat: 19.0549903, lng: 72.840237 },
         dcord: { lat: 19.0660073, lng: 72.83450420000001 }
     },
@@ -187,6 +188,13 @@ function Home() {
             console.log(localStorage.getItem('authToken'))
             console.log(response.success)
             setSearching(false)
+            setListdata([{
+                userId: "654a1669d81865efe35106c3",
+                name: 'Nobody nearby for a ride',
+                phone: '',
+                scord: { lat: 19.0549903, lng: 72.840237 },
+                dcord: { lat: 19.0660073, lng: 72.83450420000001 }
+            }])
         } catch (error) {
             console.error(error);
             setSearching(false)
@@ -357,11 +365,18 @@ function Home() {
                                     {/* <div className="col-4">
                                         <span>{user.number}</span>
                                     </div> */}
-                                    <div className="col-4 text-center">
-                                        <a className='btn phonebtn' href={'tel:' + user.phone}>
-                                            Phone
-                                        </a>
-                                    </div>
+                                    {
+                                        user.phone == '' ? (
+                                            <></>
+                                        ):(
+                                        <div className="col-4 text-center">
+                                            <a className='btn phonebtn' href={'tel:' + user.phone}>
+                                                Phone
+                                            </a>
+                                        </div>
+
+                                        )
+                                    }
                                     {/* <div className="col-4 text-right">
                                         <span>{user.location}</span>
                                     </div> */}
