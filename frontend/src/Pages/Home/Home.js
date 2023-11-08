@@ -133,7 +133,7 @@ function Home() {
 
     function handlesearch(e) {
         e.preventDefault();
-
+        setSearching(true)
         const sourceUser = coordinates; // Target user's coordinates
         const destUser = dcoord;
 
@@ -169,7 +169,7 @@ function Home() {
         }
     }
 
-    const [searching, setSearching] = useState(true);
+    const [searching, setSearching] = useState(false);
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
@@ -202,10 +202,10 @@ function Home() {
                             <div className="form-group ">
                                 <input
                                     {...getInputProps({
-                                        placeholder: 'Source',
-                                        className: 'location-search-input form-control'
-                                    })}
-                                // value = {coordinates.lat + ', ' + coordinates.lng}
+                                            placeholder: 'Source',
+                                            className: 'location-search-input form-control',
+                                        })
+                                    }
                                 // ref={}
                                 // value={coordinates.lat ? `${coordinates.lat}, ${coordinates.lng}` : ''}
                                 />

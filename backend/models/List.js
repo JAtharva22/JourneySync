@@ -7,11 +7,11 @@ const ListSchema = new Schema({
         ref: 'user',
     },
     src:{
-        type: Number,
+        type: Object,
         required: true
     },
     dest:{
-        type: Number,
+        type: Object,
         required: true, 
     },
     date:{
