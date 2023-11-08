@@ -37,11 +37,6 @@ const Navbar = () => {
                 </div>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item mx-2">
-                            <a className="nav-link active font-color" aria-current="page" href="/chat">
-                                Chat
-                            </a>
-                        </li>
                         <li className="nav-item mx-4">
                             {authtoken ? (
                                 <a className="nav-link active font-color" aria-current="page" href="/" onClick={handleSignout}>

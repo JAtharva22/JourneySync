@@ -7,58 +7,19 @@ import './Homeinput.css'
 import './Home.css';
 
 function Home() {
-    const [data, setData] = useState([
-        {
-            id: 1,
-            name: 'Om',
-            location: '50 meters',
-            number: 11111111111,
-            scord: { lat: 19.0269249, lng: 72.8478554 },
-            dcord: { lat: 19.0641877, lng: 72.8351758 }
-        },
-        {
-            id: 2,
-            name: 'John',
-            location: '100 meters',
-            number: 22222222222,
-            scord: { lat: 19.0322634, lng: 72.8454553 },
-            dcord: { lat: 19.0641877, lng: 72.8351758 }
-        },
-        {
-            id: 3,
-            name: 'Alice',
-            location: '200 meters',
-            number: 33333333333,
-            scord: { lat: 19.0269249, lng: 72.9478554 },
-            dcord: { lat: 12.0641877, lng: 72.8351758 }
-        },
-        {
-            id: 4,
-            name: 'Sairaj',
-            location: '250 meters',
-            number: 98190122023,
-            scord: { lat: 19.0549903, lng: 72.840237 },
-            dcord: { lat: 19.0644647, lng: 72.8358602 }
-        },
-        {
-            id: 3,
-            name: 'Suraj',
-            location: '500 meters',
-            number: 985151615105,
+    const [authtoken, setAuthtoken] = useState(localStorage.getItem('authToken'))
+    const [searching, setSearching] = useState(false);
+
+    const [data, setData] = useState([]);
+    const [namedata, setNamedata] = useState([]);
+
+    const [listdata, setListdata] = useState([{
+            userId: "654a1669d81865efe35106c3",
+            name: 'Nobody nearby for a ride',
             scord: { lat: 19.0549903, lng: 72.840237 },
             dcord: { lat: 19.0660073, lng: 72.83450420000001 }
         },
     ]);
-
-    const [listdata, setListdata] = useState([
-        {
-            id: 1,
-            name: 'Nobody Nearby',
-            location: '',
-            number: "",
-            scord: { lat: 19.0269249, lng: 72.8478554 },
-            dcord: { lat: 19.0641877, lng: 72.8351758 }
-        }]);
 
     // source coordinates 
     const [address, setAddress] = useState('')
@@ -130,46 +91,68 @@ function Home() {
 
         return distance;
     }
-
-    function handlesearch(e) {
-        e.preventDefault();
-        setSearching(true)
-        const sourceUser = coordinates; // Target user's coordinates
-        const destUser = dcoord;
-
-
-        const nearbyUsers = [];
-        const finalUsers = [];
-        const userdataa = [];
-
-        data.forEach(item => {
-            const scordObject = item.scord;
-            userdataa.push(scordObject);
-
-        });
-
-        for (const user of userdataa) {
-            const distance = haversineDistance(sourceUser, user);
-            if (distance <= 0.5) { // Check if the distance is less than or equal to 0.5 kilometers (500 meters)
-                nearbyUsers.push(user);
+    const postuserlist = async () => {
+        console.log("entered post")
+        const src = coordinates
+        const dest = dcoord
+        //post request
+        console.log(src)
+        try {
+            
+        const response = await fetch("http://localhost:5000/api/list/addlist", {
+            method: 'POST',
+            body: JSON.stringify({
+                src,dest
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': authtoken
             }
-        }
+        })
+    
+        var responsepost = await response.json()
+        console.log(responsepost)
+    } catch (error) {
+        console.log(error)
+}
+    };
 
-        for (let i = 0; i < nearbyUsers.length; i++) {
-
-            const filteredData = data.filter(item => item.scord === nearbyUsers[i]);
-            const distance = haversineDistance(destUser, filteredData[0].dcord);
-            if (distance <= 0.5) {
-                finalUsers.push(filteredData[0]);
+    const getnameapi = async (userId) => {
+        //post request
+        const response = await fetch("http://localhost:5000/api/auth/getuserbyid", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': userId,
+                'auth-token': authtoken
             }
-        }
+        })
+        const user = await response.json()
+        return user.name
+    };
 
-        if (finalUsers.length !== 0) {
-            setListdata(finalUsers)
-        }
-    }
+    const getlistdataapi = async (e) => {
 
-    const [searching, setSearching] = useState(false);
+        //post request
+        const response = await fetch("http://localhost:5000/api/list/getlist", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': authtoken
+            }
+        })
+        var responselist = await response.json()
+
+        for (let i = 0; i < responselist.length; i++) {
+            const name = await getnameapi(responselist[i].userId);
+            responselist[i].name = name
+        }
+        console.log(responselist)
+        setData(responselist)
+        console.log(data)
+
+    };
+
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
@@ -177,7 +160,7 @@ function Home() {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    'auth-token': localStorage.getItem('authToken')
+                    'auth-token': authtoken
                 }
             })
             console.log(localStorage.getItem('authToken'))
@@ -189,6 +172,56 @@ function Home() {
             // Handle errors, e.g., display an error message
         }
     };
+
+    async function handlesearch(e) {
+        e.preventDefault();
+        setSearching(true)
+        getlistdataapi();
+        postuserlist();
+
+        const sourceUser = coordinates; // Target user's coordinates
+        const destUser = dcoord;
+
+
+        const nearbyUsers = [];
+        const finalUsers = [];
+        const userdataa = [];
+
+        data.forEach(item => {
+            const srcObject = item.src;
+            userdataa.push(srcObject);
+
+        });
+
+        for (const user of userdataa) {
+            const distance = haversineDistance(sourceUser, user);
+            if (distance <= 0.1) { // Check if the distance is less than or equal to 0.1 kilometers (100 meters)
+                nearbyUsers.push(user);
+            }
+        }
+
+        for (let i = 0; i < nearbyUsers.length; i++) {
+
+            const filteredData = data.filter(item => item.src === nearbyUsers[i]);
+            const distance = haversineDistance(destUser, filteredData[0].dest);
+            if (distance <= 0.1) {
+                finalUsers.push(filteredData[0]);
+            }
+        }
+
+        if (finalUsers.length !== 0) {
+            setListdata(finalUsers)
+        }else{
+            setListdata([{
+                userId: "654a1669d81865efe35106c3",
+                name: 'Nobody nearby for a ride',
+                scord: { lat: 19.0549903, lng: 72.840237 },
+                dcord: { lat: 19.0660073, lng: 72.83450420000001 }
+            },
+        ])
+        }
+    }
+
     return (
         <>
             <div className='container'>
@@ -202,10 +235,10 @@ function Home() {
                             <div className="form-group ">
                                 <input
                                     {...getInputProps({
-                                            placeholder: 'Source',
-                                            className: 'location-search-input form-control',
-                                        })
-                                    }
+                                        placeholder: 'Source',
+                                        className: 'location-search-input form-control'
+                                    })}
+                                // value = {coordinates.lat + ', ' + coordinates.lng}
                                 // ref={}
                                 // value={coordinates.lat ? `${coordinates.lat}, ${coordinates.lng}` : ''}
                                 />
@@ -292,23 +325,20 @@ function Home() {
                 </div>
                 <div>
                     {listdata.map((user) => (
-                        <div className="container ribbonbody " key={user.id}>
+                        <div className="container ribbonbody " key={user.userId} >
                             <h3 className="namecss">
-                                <span>{user.name}</span>
+                            {/* <span>{console.log(getnameapi(user.userId))}</span> */}
+                            <span>{user.name}</span>
+                                
                             </h3>
                             <div className="container">
                                 <div className="row ribbon">
-                                    <div className="col-4">
+                                    {/* <div className="col-4">
                                         <span>{user.number}</span>
-                                    </div>
-                                    <div className="col-4 text-center">
-                                        <button className='btn'>
-                                            Chat
-                                        </button>
-                                    </div>
-                                    <div className="col-4 text-right">
+                                    </div> */}
+                                    {/* <div className="col-4 text-right">
                                         <span>{user.location}</span>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ import Login from './Pages/Login/Login';
 import ProfilePage from './Pages/UserProfile/UserProfile';
 import Footer from './Components/footer/Footer';
 import Home from './Pages/Home/Home';
+import Landing from './Pages/Landing/Landing';
 import Navbar from './Components/Navbar/Navbar';
 
 function Main() {
@@ -35,13 +36,13 @@ function Main() {
       <Routes>
         {isAuthenticated ? (
           <>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="/search" element={<Home />} />
             <Route path="/profile" element={<ProfilePage />} />
           </>
         ) : (
           <>
-            <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Home />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
           </>
         )}
