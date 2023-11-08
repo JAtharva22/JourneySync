@@ -39,11 +39,11 @@ const Navbar = () => {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item mx-4">
                             {authtoken ? (
-                                <a className="nav-link active font-color" aria-current="page" href="/" onClick={handleSignout}>
+                                <a className="nav-link active  btncolor" aria-current="page" href="/" onClick={handleSignout}>
                                     Sign Out
                                 </a>
                             ) : (
-                                <a className="nav-link active font-color" aria-current="page" href="/login">
+                                <a className="nav-link active   btncolor" aria-current="page" href="/login">
                                     Login
                                 </a>
                             )}

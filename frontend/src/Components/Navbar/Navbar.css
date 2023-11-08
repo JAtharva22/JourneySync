@@ -11,6 +11,11 @@
   color: indigo !important;
 }
 
+.btncolor{
+  background-color: indigo !important;
+  color: white !important;
+  border-radius: 50px !important;
+}
 
 /* Profile Picture */
 .profile-pic{
