@@ -14,11 +14,11 @@ function Home() {
     const [namedata, setNamedata] = useState([]);
 
     const [listdata, setListdata] = useState([{
-            userId: "654a1669d81865efe35106c3",
-            name: 'Nobody nearby for a ride',
-            scord: { lat: 19.0549903, lng: 72.840237 },
-            dcord: { lat: 19.0660073, lng: 72.83450420000001 }
-        },
+        userId: "654a1669d81865efe35106c3",
+        name: 'Nobody nearby for a ride',
+        scord: { lat: 19.0549903, lng: 72.840237 },
+        dcord: { lat: 19.0660073, lng: 72.83450420000001 }
+    },
     ]);
 
     // source coordinates 
@@ -98,23 +98,23 @@ function Home() {
         //post request
         console.log(src)
         try {
-            
-        const response = await fetch("http://localhost:5000/api/list/addlist", {
-            method: 'POST',
-            body: JSON.stringify({
-                src,dest
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'auth-token': authtoken
-            }
-        })
-    
-        var responsepost = await response.json()
-        console.log(responsepost)
-    } catch (error) {
-        console.log(error)
-}
+
+            const response = await fetch("http://localhost:5000/api/list/addlist", {
+                method: 'POST',
+                body: JSON.stringify({
+                    src, dest
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': authtoken
+                }
+            })
+
+            var responsepost = await response.json()
+            console.log(responsepost)
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     const getnameapi = async (userId) => {
@@ -131,6 +131,21 @@ function Home() {
         return user.name
     };
 
+    const getphoneapi = async (userId) => {
+        //post request
+        const response = await fetch("http://localhost:5000/api/auth/getuserbyid", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': userId,
+                'auth-token': authtoken
+            }
+        })
+        const user = await response.json()
+        return user.phone
+    };
+
+
     const getlistdataapi = async (e) => {
 
         //post request
@@ -144,8 +159,14 @@ function Home() {
         var responselist = await response.json()
 
         for (let i = 0; i < responselist.length; i++) {
+
             const name = await getnameapi(responselist[i].userId);
             responselist[i].name = name
+        }
+        for (let i = 0; i < responselist.length; i++) {
+
+            const phone = await getphoneapi(responselist[i].userId);
+            responselist[i].phone = phone
         }
         console.log(responselist)
         setData(responselist)
@@ -211,14 +232,14 @@ function Home() {
 
         if (finalUsers.length !== 0) {
             setListdata(finalUsers)
-        }else{
+        } else {
             setListdata([{
                 userId: "654a1669d81865efe35106c3",
                 name: 'Nobody nearby for a ride',
                 scord: { lat: 19.0549903, lng: 72.840237 },
                 dcord: { lat: 19.0660073, lng: 72.83450420000001 }
             },
-        ])
+            ])
         }
     }
 
@@ -327,15 +348,20 @@ function Home() {
                     {listdata.map((user) => (
                         <div className="container ribbonbody " key={user.userId} >
                             <h3 className="namecss">
-                            {/* <span>{console.log(getnameapi(user.userId))}</span> */}
-                            <span>{user.name}</span>
-                                
+                                {/* <span>{console.log(getnameapi(user.userId))}</span> */}
+                                <span>{user.name}</span>
+
                             </h3>
                             <div className="container">
-                                <div className="row ribbon">
+                                <div className=" ribbon">
                                     {/* <div className="col-4">
                                         <span>{user.number}</span>
                                     </div> */}
+                                    <div className="col-4 text-center">
+                                        <a className='btn phonebtn' href={'tel:' + user.phone}>
+                                            Phone
+                                        </a>
+                                    </div>
                                     {/* <div className="col-4 text-right">
                                         <span>{user.location}</span>
                                     </div> */}

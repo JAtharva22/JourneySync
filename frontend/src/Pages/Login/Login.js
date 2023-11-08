@@ -19,6 +19,7 @@ function Login() {
     const [age, setAge] = useState('')
     const [name, setName] = useState('')
     const [gender, setGender] = useState('')
+    const [phone, setPhone] = useState('')
 
 
     const handleSubmitLogin = async (e) => {
@@ -53,7 +54,7 @@ function Login() {
         const response = await fetch("http://localhost:5000/api/auth/createuser", {
             method: 'POST',
             body: JSON.stringify({
-                email, password, age, name, gender
+                email, password, age, name, gender, phone
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -157,6 +158,16 @@ function Login() {
                                                             min="13" max="100"
                                                             value={age}
                                                             onChange={(event) => setAge(event.target.value)}
+                                                        />
+                                                        <i className="input-icon uil uil-calender" />
+                                                    </div>
+                                                    <div className="form-group mt-2">
+                                                        <input
+                                                            type="tel"
+                                                            className="form-style"
+                                                            placeholder="Phone"
+                                                            value={phone}
+                                                            onChange={(event) => setPhone(event.target.value)}
                                                         />
                                                         <i className="input-icon uil uil-calender" />
                                                     </div>

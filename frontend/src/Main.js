@@ -39,6 +39,7 @@ function Main() {
             <Route path="/" element={<Landing />} />
             <Route path="/search" element={<Home />} />
             <Route path="/profile" element={<ProfilePage />} />
+            {/* <Route path="/chat" element={<Chat />} /> */}
           </>
         ) : (
           <>

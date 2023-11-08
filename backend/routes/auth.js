@@ -38,6 +38,7 @@ router.post('/createuser', [
             email: req.body.email,
             age: req.body.age,
             gender: req.body.gender,
+            phone: req.body.phone
         });
         const data = {
             user: {
