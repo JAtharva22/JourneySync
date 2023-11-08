@@ -1,0 +1,48 @@
+/* Add these styles to your component's CSS file */
+.location-search-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+.autocomplete-dropdown-container {
+    color: black !important;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid black;
+    max-height: 250px;
+    min-width: 100% !important;
+    /* Limit the maximum height of the dropdown */
+    overflow-y: auto;
+    /* Enable vertical scrolling if needed */
+    z-index: 999;
+}
+
+.zcheck{
+    z-index: 998 !important;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    padding: 8px;
+    background-color: #f0f0f0;
+}
+
+.suggestion-item--active {
+    padding: 8px;
+    background-color: #007BFF !important;
+    color: #fff;
+}
