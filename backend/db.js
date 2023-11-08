@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config()
 
-const mongoURI = "mongodb+srv://admin:journeysyncthadomalproject@journeysync.3yvp2so.mongodb.net/?retryWrites=true&w=majority"
+const mongoURI = process.env.MONGO_URI;
 
 const connectToMongo = ()=>{
     mongoose.connect(mongoURI);
