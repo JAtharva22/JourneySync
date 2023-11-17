@@ -5,9 +5,10 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import './Homeinput.css'
 import './Home.css';
+import Cookies from 'js-cookie';
 
 function Home() {
-    const [authtoken, setAuthtoken] = useState(localStorage.getItem('authToken'))
+    const [authtoken, setAuthtoken] = useState(Cookies.get('authToken'));
     const [searching, setSearching] = useState(false);
 
     const [data, setData] = useState([]);

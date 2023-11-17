@@ -14,6 +14,7 @@ import Footer from './Components/footer/Footer';
 import Home from './Pages/Home/Home';
 import Landing from './Pages/Landing/Landing';
 import Navbar from './Components/Navbar/Navbar';
+import Cookies from 'js-cookie';
 
 function Main() {
   const location = useLocation();
@@ -22,7 +23,7 @@ function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const authToken = localStorage.getItem('authToken');
+    const authToken = Cookies.get('authToken');
     if (authToken) {
       setIsAuthenticated(true);
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import './Login.css'
 
 function Login() {
@@ -7,7 +8,7 @@ function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = Cookies.get('authToken');
         if (authToken) {
             navigate("/")
         }
@@ -38,7 +39,7 @@ function Login() {
 
         let json = await response.json()
         if (json.success) {
-            localStorage.setItem('authToken', json.authtoken);
+            Cookies.set('authToken', json.authtoken, { expires: 7, secure: true });
             navigate('/')
         } else {
             alert("Invalid Credentials");
@@ -63,7 +64,7 @@ function Login() {
 
         let json = await response.json()
         if (json.success) {
-            localStorage.setItem('authToken', json.authtoken);
+            Cookies.set('authToken', json.authtoken, { expires: 7, secure: true });
             navigate('/')
         } else {
             alert("Invalid Credentials");

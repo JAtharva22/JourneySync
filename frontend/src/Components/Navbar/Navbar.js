@@ -1,16 +1,17 @@
 import { React, useState, useEffect } from 'react';
 import './Navbar.css'
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [authtoken, setAuthToken] = useState(null);
 
     useEffect(() => {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = Cookies.get('authToken');
         setAuthToken(authToken);
     }, []);
 
     const handleSignout = () => {
-        localStorage.removeItem('authToken');
+        Cookies.remove('authToken');
         window.location.reload();
     };
 

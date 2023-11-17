@@ -1,4 +1,5 @@
 import {React, useState, useEffect} from 'react';
+import Cookies from 'js-cookie';
 import './Landing.css';
 
 function Home() {
@@ -6,7 +7,7 @@ function Home() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-      const authToken = localStorage.getItem('authToken');
+      const authToken = Cookies.get('authToken');
       if (authToken) {
         setIsAuthenticated(true);
       }
