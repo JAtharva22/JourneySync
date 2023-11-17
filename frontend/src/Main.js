@@ -49,7 +49,7 @@ function Main() {
         )}
       </Routes>
       
-      <Footer />
+      {currentRoute !== "/login" && <Footer />}
     </>
   )
 }

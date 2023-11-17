@@ -1,3 +1,0 @@
-mongo pwd : journeysyncthadomalproject
-mongo user : admin
-mongo uri : mongodb+srv://admin:journeysyncthadomalproject@journeysync.3yvp2so.mongodb.net/?retryWrites=true&w=majority
