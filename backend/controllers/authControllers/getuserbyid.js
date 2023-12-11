@@ -3,7 +3,8 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-const User = require('../models/User');
+const path = require('path');
+const User = require(path.resolve(__dirname, '../../models/User'));
 
 
 const getuserbyid = async (req, res) => {
@@ -17,4 +18,4 @@ const getuserbyid = async (req, res) => {
     }
 }
 
-export default getuserbyid
+module.exports = getuserbyid

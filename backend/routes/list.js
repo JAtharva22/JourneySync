@@ -3,10 +3,11 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
 const fetchuser = require('../middleware/fetchuser');
-const { default: addlist } = require('../controllers/listControllers/addlist');
-const { default: updatelist } = require('../controllers/listControllers/updatelist');
-const { default: deletelist } = require('../controllers/listControllers/deletelist');
-const { default: getlist } = require('../controllers/listControllers/getlist');
+
+const addlist  = require('../controllers/listControllers/addlist');
+const updatelist  = require('../controllers/listControllers/updatelist');
+const deletelist  = require('../controllers/listControllers/deletelist');
+const getlist  = require('../controllers/listControllers/getlist');
 
 
 // ROUTE 1: Add a new List using: POST "/api/lists/addlist". Login required

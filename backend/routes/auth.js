@@ -3,10 +3,10 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
 var fetchuser = require('../middleware/fetchuser');
-const { default: createuser } = require('../controllers/authControllers/createuser');
-const { default: loginuser } = require('../controllers/authControllers/loginuser');
-const { default: getuserbyid } = require('../controllers/authControllers/getuserbyid');
-const { default: updateuser } = require('../controllers/authControllers/updateuser');
+const createuser  = require('../controllers/authControllers/createuser');
+const loginuser  = require('../controllers/authControllers/loginuser');
+const getuserbyid  = require('../controllers/authControllers/getuserbyid');
+const updateuser  = require('../controllers/authControllers/updateuser');
 
 
 // ROUTE 1: Create a User using: POST "/api/auth/createuser". No login required

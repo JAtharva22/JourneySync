@@ -50,9 +50,9 @@ function UserProfile() {
                     const fetchedUserData = await response.json();
                     setUserData(fetchedUserData);
                     setUserinfo({
-                        name: fetchedUserData.name,
-                        email: fetchedUserData.email,
-                        age: fetchedUserData.age,
+                        name: fetchedUserData.responseUser.name,
+                        email: fetchedUserData.responseUser.email,
+                        age: fetchedUserData.recsponseUser.age,
                     });
                 }
             } catch (error) {

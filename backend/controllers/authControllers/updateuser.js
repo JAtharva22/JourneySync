@@ -3,7 +3,8 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-const User = require('../models/User');
+const path = require('path');
+const User = require(path.resolve(__dirname, '../../models/User'));
 
 
 const updateuser = async (req, res) => {
@@ -27,11 +28,17 @@ const updateuser = async (req, res) => {
          return res.status(404).json({ success: false, error: "User not found" });
       }
 
-      res.json({ success: true, user });
+      const responseUser = [{
+               name: user.name,
+               email: user.email,
+               age: user.age,
+            }];
+
+      res.json({ success: true, responseUser });
    } catch (error) {
       console.error(error.message);
       res.status(500).json({ success: false, error: "Internal Server Error" });
    }
 }
 
-export default updateuser
+module.exports = updateuser

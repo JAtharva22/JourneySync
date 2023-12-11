@@ -3,7 +3,8 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-const User = require('../models/User');
+const path = require('path');
+const User = require(path.resolve(__dirname, '../../models/User'));
 
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -44,4 +45,4 @@ const loginuser = async (req, res) => {
     }
 }
 
-export default loginuser
+module.exports = loginuser
