@@ -11,9 +11,6 @@ function Home() {
     const [authtoken, setAuthtoken] = useState(Cookies.get('authToken'));
     const [searching, setSearching] = useState(false);
 
-    const [data, setData] = useState([]);
-    const [namedata, setNamedata] = useState([]);
-
     const [listdata, setListdata] = useState([{
         userId: "654a1669d81865efe35106c3",
         name: 'Nobody nearby for a ride',
@@ -73,7 +70,7 @@ function Home() {
         navigator.geolocation.getCurrentPosition(success, errorCurrent)
     }
 
-    
+
     //-------------------------------------------------------------------------------------------------------
     const getnameapi = async (userId) => {
         //post request
@@ -195,8 +192,8 @@ function Home() {
             // Handle errors, e.g., display an error message
         }
     };
-//------------------------------------------------------------------------------------------
-    
+    //------------------------------------------------------------------------------------------
+
     // function to handle search whenever user clicks search for different users    
     async function handlesearch(e) {
         e.preventDefault();
