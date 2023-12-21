@@ -1,6 +1,6 @@
 journeysync
 
--> calculation in backend
+-> calculation in backend => done
 -> chatroom
 -> verification
 -> user rating
