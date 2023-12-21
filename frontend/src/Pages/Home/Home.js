@@ -72,7 +72,7 @@ function Home() {
 
 
     //-------------------------------------------------------------------------------------------------------
-    const getnameapi = async (userId) => {
+    const fetchUserByIdApi = async (userId) => {
         //post request
         const response = await fetch("http://localhost:5000/api/auth/getuserbyid", {
             method: 'GET',
@@ -83,21 +83,7 @@ function Home() {
             }
         })
         const user = await response.json()
-        return user.name
-    };
-
-    const getphoneapi = async (userId) => {
-        //post request
-        const response = await fetch("http://localhost:5000/api/auth/getuserbyid", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'userId': userId,
-                'auth-token': authtoken
-            }
-        })
-        const user = await response.json()
-        return user.phone
+        return user
     };
     //---------------------------------------------------------------------------------------------------------
 
@@ -126,7 +112,7 @@ function Home() {
         }
     };
 
-    // get filtered listfrom backend for final results
+    // get filtered list from backend for final results
     const getlistdataapi = async (e) => {
         const src = [coordinates.lng, coordinates.lat];
         const dest = [dcoord.lng, dcoord.lat];
@@ -145,18 +131,13 @@ function Home() {
 
         for (let i = 0; i < responselist.length; i++) {
 
-            const name = await getnameapi(responselist[i].userId);
-            responselist[i].name = name
-        }
-        for (let i = 0; i < responselist.length; i++) {
-
-            const phone = await getphoneapi(responselist[i].userId);
-            responselist[i].phone = phone
+            const user = await fetchUserByIdApi(responselist[i].userId);
+            responselist[i].name = user.name
+            responselist[i].phone = user.phone
         }
         if (responselist.length !== 0) {
             setListdata(responselist)
-        }
-        else {
+        } else {
             setListdata([{
                 userId: "654a1669d81865efe35106c3",
                 name: 'Nobody nearby for a ride',
@@ -305,7 +286,6 @@ function Home() {
                     {listdata.map((user) => (
                         <div className="container ribbonbody " key={user.userId} >
                             <h3 className="namecss">
-                                {/* <span>{console.log(getnameapi(user.userId))}</span> */}
                                 <span>{user.name}</span>
 
                             </h3>
