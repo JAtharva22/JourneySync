@@ -30,7 +30,7 @@ function Home() {
         lng: null
     })
 
-    const handleSelect = async value => {
+    const handleSelectSrc = async value => {
         const results = await geocodeByAddress(value);
         const ll = await getLatLng(results[0])
         console.log(ll)
@@ -53,6 +53,7 @@ function Home() {
         setDcoord(ll)
     }
 
+    // function to find current location of user
     const findCurrent = (e) => {
         e.preventDefault()
         const success = (position) => {
@@ -72,53 +73,8 @@ function Home() {
         navigator.geolocation.getCurrentPosition(success, errorCurrent)
     }
 
-
-    function haversineDistance(coord1, coord2) {
-        const R = 6371; // Radius of the Earth in kilometers
-        const lat1 = (coord1.lat * Math.PI) / 180;
-        const lat2 = (coord2.lat * Math.PI) / 180;
-        const lon1 = (coord1.lng * Math.PI) / 180;
-        const lon2 = (coord2.lng * Math.PI) / 180;
-
-        const dLat = lat2 - lat1;
-        const dLon = lon2 - lon1;
-
-        const a =
-            Math.sin(dLat / 2) ** 2 +
-            Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
-
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        const distance = R * c; // Distance in kilometers
-
-        return distance;
-    }
-    const postuserlist = async () => {
-        console.log("entered post")
-        const src = coordinates
-        const dest = dcoord
-        //post request
-        console.log(src)
-        try {
-
-            const response = await fetch("http://localhost:5000/api/list/addlist", {
-                method: 'POST',
-                body: JSON.stringify({
-                    src, dest
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': authtoken
-                }
-            })
-
-            var responsepost = await response.json()
-            console.log(responsepost)
-        } catch (error) {
-            console.log(error)
-        }
-    };
-
+    
+    //-------------------------------------------------------------------------------------------------------
     const getnameapi = async (userId) => {
         //post request
         const response = await fetch("http://localhost:5000/api/auth/getuserbyid", {
@@ -146,13 +102,43 @@ function Home() {
         const user = await response.json()
         return user.phone
     };
+    //---------------------------------------------------------------------------------------------------------
 
+    // post user in master list
+    const postuserlistapi = async () => {
+        const src = [coordinates.lng, coordinates.lat];
+        const dest = [dcoord.lng, dcoord.lat];
+        //post request
+        console.log(src)
+        try {
+            const response = await fetch("http://localhost:5000/api/list/addlist", {
+                method: 'POST',
+                body: JSON.stringify({
+                    src, dest
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': authtoken
+                }
+            })
 
+            var responsepost = await response.json()
+            console.log(responsepost)
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    // get filtered listfrom backend for final results
     const getlistdataapi = async (e) => {
-
+        const src = [coordinates.lng, coordinates.lat];
+        const dest = [dcoord.lng, dcoord.lat];
         //post request
         const response = await fetch("http://localhost:5000/api/list/getlist", {
-            method: 'GET',
+            method: 'POST',
+            body: JSON.stringify({
+                src, dest
+            }),
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token': authtoken
@@ -170,9 +156,18 @@ function Home() {
             const phone = await getphoneapi(responselist[i].userId);
             responselist[i].phone = phone
         }
-        console.log(responselist)
-        setData(responselist)
-        console.log(data)
+        if (responselist.length !== 0) {
+            setListdata(responselist)
+        }
+        else {
+            setListdata([{
+                userId: "654a1669d81865efe35106c3",
+                name: 'Nobody nearby for a ride',
+                scord: { lat: 19.0549903, lng: 72.840237 },
+                dcord: { lat: 19.0660073, lng: 72.83450420000001 }
+            },
+            ])
+        }
 
     };
 
@@ -186,8 +181,6 @@ function Home() {
                     'auth-token': authtoken
                 }
             })
-            console.log(localStorage.getItem('authToken'))
-            console.log(response.success)
             setSearching(false)
             setListdata([{
                 userId: "654a1669d81865efe35106c3",
@@ -202,54 +195,14 @@ function Home() {
             // Handle errors, e.g., display an error message
         }
     };
-
+//------------------------------------------------------------------------------------------
+    
+    // function to handle search whenever user clicks search for different users    
     async function handlesearch(e) {
         e.preventDefault();
         setSearching(true)
         getlistdataapi();
-        postuserlist();
-
-        const sourceUser = coordinates; // Target user's coordinates
-        const destUser = dcoord;
-
-
-        const nearbyUsers = [];
-        const finalUsers = [];
-        const userdataa = [];
-
-        data.forEach(item => {
-            const srcObject = item.src;
-            userdataa.push(srcObject);
-
-        });
-
-        for (const user of userdataa) {
-            const distance = haversineDistance(sourceUser, user);
-            if (distance <= 0.1) { // Check if the distance is less than or equal to 0.1 kilometers (100 meters)
-                nearbyUsers.push(user);
-            }
-        }
-
-        for (let i = 0; i < nearbyUsers.length; i++) {
-
-            const filteredData = data.filter(item => item.src === nearbyUsers[i]);
-            const distance = haversineDistance(destUser, filteredData[0].dest);
-            if (distance <= 0.1) {
-                finalUsers.push(filteredData[0]);
-            }
-        }
-
-        if (finalUsers.length !== 0) {
-            setListdata(finalUsers)
-        } else {
-            setListdata([{
-                userId: "654a1669d81865efe35106c3",
-                name: 'Nobody nearby for a ride',
-                scord: { lat: 19.0549903, lng: 72.840237 },
-                dcord: { lat: 19.0660073, lng: 72.83450420000001 }
-            },
-            ])
-        }
+        postuserlistapi();
     }
 
     return (
@@ -259,7 +212,7 @@ function Home() {
                     <PlacesAutocomplete
                         value={address}
                         onChange={setAddress}
-                        onSelect={handleSelect}
+                        onSelect={handleSelectSrc}
                     >
                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                             <div className="form-group ">
@@ -352,8 +305,6 @@ function Home() {
                 </form>
                 <div>
                     {/* map */}
-                </div>
-                <div>
                     {listdata.map((user) => (
                         <div className="container ribbonbody " key={user.userId} >
                             <h3 className="namecss">
@@ -369,12 +320,12 @@ function Home() {
                                     {
                                         user.phone == '' ? (
                                             <></>
-                                        ):(
-                                        <div className="col-4 text-center">
-                                            <a className='btn phonebtn' href={'tel:' + user.phone}>
-                                                Phone
-                                            </a>
-                                        </div>
+                                        ) : (
+                                            <div className="col-4 text-center">
+                                                <a className='btn phonebtn' href={'tel:' + user.phone}>
+                                                    Phone
+                                                </a>
+                                            </div>
 
                                         )
                                     }

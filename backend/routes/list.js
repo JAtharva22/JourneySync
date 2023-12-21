@@ -26,7 +26,7 @@ router.put('/updatelist', fetchuser, [
 router.delete('/deletelist', fetchuser, deletelist);
 
 // ROUTE 4: Get an existing Listitem using: GET "/api/lists/getlist". Login required
-router.get('/getlist',fetchuser, [
+router.post('/getlist',fetchuser, [
     body('src', 'Enter a valid source'),
     body('dest', 'Enter a valid destination'),
 ], getlist);
