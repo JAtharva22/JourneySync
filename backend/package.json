@@ -98,7 +98,7 @@
     "yallist": "^4.0.0"
   },
   "scripts": {
-    "test": "nodemon index.js"
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC"
