@@ -13,8 +13,7 @@ const getlist = async (req, res) => {
 
         // Get the user's source and destination coordinates
         const { src, dest } = req.body;
-        console.log(src, dest)
-
+        
         // Find items within 0.1 km from both source and destination
         const nearbyItems = await List.find({
             $and: [

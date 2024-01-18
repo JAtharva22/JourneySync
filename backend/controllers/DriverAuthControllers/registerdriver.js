@@ -46,7 +46,7 @@ const registerDriver = async (req, res) => {
             city: req.body.city
         });
         const data = {
-            Driver: {
+            driver: {
                 id: driver.id
             }
         }

@@ -37,6 +37,12 @@ const loginDriver = async (req, res) => {
             }
         }
         const authtoken = jwt.sign(data, JWT_SECRET);
+        // res.cookie('cookietoken', authtoken, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: 'none',
+        //   }).json("sended");
+          
         res.json({ success, authtoken })
 
     } catch (error) {

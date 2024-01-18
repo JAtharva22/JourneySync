@@ -3,8 +3,8 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
 
-const loginDriver = require('../controllers/DriverControllers/logindriver.js');
-const registerDriver = require('../controllers/DriverControllers/registerdriver.js');
+const loginDriver = require('../controllers/DriverAuthControllers/logindriver.js');
+const registerDriver = require('../controllers/DriverAuthControllers/registerdriver.js');
 
 
 // ROUTE 1: Create a Driver using: POST "/api/auth/createuser". No login required

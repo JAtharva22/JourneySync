@@ -50,34 +50,7 @@ const driverSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    // luggage: {
-    //     type: Boolean,
-    //     default: true, 
-    // },
-    // isBusy: {
-    //     type: Boolean,
-    //     default: false, 
-    // },
-    // location: {
-    //     type: {
-    //         type: String,
-    //         enum: ['Point'],
-    //         required: true,
-    //     },
-    //     coordinates: {
-    //         type: [Number],
-    //         required: true,
-    //     },
-    // },
-    // lastLocationUpdateTime: {
-    //     type: Date,
-    //     default: Date.now,
-    // },
 });
-
-// driverSchema.index({ country: 1, state: 1, city: 1 });
-// Create a geospatial index
-driverSchema.index({ location: '2dsphere' });
 
 const Driver = mongoose.model('Driver', driverSchema);
 
