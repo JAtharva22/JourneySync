@@ -1,8 +1,8 @@
 const path = require('path');
-const DriverList = require(path.resolve(__dirname, '../../models/DriverList'));
 const { validationResult } = require('express-validator');
+const DriverList = require('../../models/DriverList');
 
-const updateLocation = async (req, res) => {
+const updateDriverLocationInList = async (req, res) => {
     try {
         // If there are errors, return Bad request and the errors
         const errors = validationResult(req);
@@ -37,4 +37,4 @@ const updateLocation = async (req, res) => {
     }
 };
 
-module.exports = updateLocation;
+module.exports = updateDriverLocationInList;

@@ -1,48 +1,46 @@
 const { validationResult } = require('express-validator');
-const DriverList = require('../../models/Uber/DriverList');
+const DriverList = require('../../models/DriverList');
 require('dotenv').config();
 
-const matchDriver = async (req, res) => {
+const matchDriverFromList = async (req, res) => {
     try {
         // If there are errors, return Bad request and the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(404).json({ errors: errors.array() });
         }
 
-        const user = req.body;
+        // Extract user data from request body
+        const { country, state, city, vehicleType, src, range } = req.body;
+        console.log(req.body)
 
-        // Get the distance
-        // const distance = await getDistance(user.src, user.dest);
-
-        // Find drivers within 0.1 km from the user's source location
+        // Find a driver that matches the criteria
         const closestDriver = await DriverList.findOne({
-            $and: [
-                {
-                    country: user.country,
-                    state: user.state,
-                    city: user.city,
-                    vehicleType: user.VehicleType,
-                    isBusy: false,
-                    distanceAvailable: { $lte: user.distance },
-                    location: {
-                        $near: {
-                            $geometry: {
-                                type: 'Point',
-                                coordinates: user.src,
-                            },
-                            $maxDistance: 500, // Adjust the maximum distance in meters (0.1 km = 100 meters)
-                        },
+            country,
+            state,
+            city,
+            vehicleType: vehicleType,
+            isBusy: false,
+            location: {
+                $near: {
+                    $geometry: {
+                        type: 'Point',
+                        coordinates: src,
                     },
+                    $maxDistance: range, // Adjust the maximum distance in meters
                 },
-            ],
+            },
         }).sort({ location: 1 });
 
-        const foundDocument = await DriverList.findOne({ driverId: closestDriver.driverId })
-            .populate('driverId') // Populate the 'driverId' field with the corresponding data from the 'Driver' collection
-            .exec();
+        
+        if (!closestDriver){
+            return res.status(400).json({ message: "no driver found" });
+        }
 
-        res.json(foundDocument);
+        const foundDriver = await DriverList.findOne({ driverId: closestDriver.driverId })
+            .populate('driverId').exec();
+
+        res.status(200).json(foundDriver);
 
     } catch (error) {
         console.error(error.message);
@@ -50,7 +48,7 @@ const matchDriver = async (req, res) => {
     }
 };
 
-module.exports = matchDriver;
+module.exports = matchDriverFromList;
 
 
 // const googleMapsClient = require('@google/maps').createClient({

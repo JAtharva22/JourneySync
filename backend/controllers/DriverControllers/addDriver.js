@@ -1,13 +1,12 @@
 const express = require('express');
 const path = require('path');
-const DriverList = require(path.resolve(__dirname, '../../models/DriverList'));
 const { body, validationResult } = require('express-validator');
+const DriverList = require('../../models/DriverList');
 
 
 const addDriver = async (req, res) => {
     try {
 
-        // If there are errors, return Bad request and the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -22,13 +21,12 @@ const addDriver = async (req, res) => {
         const driverListEntry = new DriverList({
             driverId: req.driver.id,
             vehicleType: req.body.vehicleType,
-            distanceAvailable: req.body.distance,
             country: req.body.country,
             state: req.body.state,
             city: req.body.city,
             location: {
                 type: 'Point',
-                coordinates: req.body.src, // array [longitude, latitude]
+                coordinates: req.body.location, // array [longitude, latitude]
             },
         });
 

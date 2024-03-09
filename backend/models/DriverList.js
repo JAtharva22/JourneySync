@@ -15,9 +15,6 @@ const DriverListSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    distanceAvailable:{
-        type: Number,
-    },
     country: {
         type: String,
         required: true,

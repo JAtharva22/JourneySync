@@ -1,28 +1,24 @@
 const path = require('path');
-const DriverList = require(path.resolve(__dirname, '../../models/DriverList'));
-const { validationResult } = require('express-validator');
+const DriverList = require('../../models/DriverList');
 
 const selectedDriver = async (req, res) => {
     try {
-        // If there are errors, return Bad request and the errors
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+        // Find the driver list entry to be updated
+        const existingDriverList = await DriverList.findOne({ driverId: req.driver.id });
 
-        // Find the driver list entry to be created and if not found, return error
-        const existingDriverList = await DriverList.findOneAndUpdate(
-            { driverId: req.driver.id },
-            { $set: { isBusy: !existingDriverList.isBusy } }, // Change 'true' to 'false' if you want to toggle
-            { new: true }
-        );
-
+        // If the driver list entry doesn't exist, return a 404 error
         if (!existingDriverList) {
             return res.status(404).send("Not Found");
         }
 
-        res.json(existingDriverList);
+        // Toggle the value of isBusy
+        existingDriverList.isBusy = !existingDriverList.isBusy;
+        
+        // Save the updated driver list entry
+        const updatedDriverList = await existingDriverList.save();
 
+        // Respond with the updated driver list entry
+        res.json(updatedDriverList);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");

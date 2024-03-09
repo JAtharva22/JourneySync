@@ -6,7 +6,6 @@ const { body, validationResult } = require('express-validator');
 const addlist = async (req, res) => {
     try {
         const { src, dest } = req.body;
-        console.log(src, dest)
 
         // If there are errors, return Bad request and the errors
         const errors = validationResult(req);

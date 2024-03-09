@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
 const path = require('path');
-const Driver = require('../../models/Uber/Driver');
+const Driver = require('../../models/Driver');
 
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;

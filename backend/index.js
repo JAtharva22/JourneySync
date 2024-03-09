@@ -16,8 +16,9 @@ connectToMongo();
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/auth', require('./routes/driverauth.js'))
 app.use('/api/list', require('./routes/list'))
+app.use('/api/driverlist', require('./routes/driverlist'))
 
 
 app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`)
+  console.log(`App listening at http://localhost:${PORT}`)
 })
