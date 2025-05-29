@@ -1,0 +1,69 @@
+.App {
+    text-align: center;
+  }
+  
+  *{
+    margin: 0;
+    padding: 0;  
+  }
+  
+  /* Home.module.css */
+  
+  .landing {
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .content {
+    text-align: center;
+    color: black;
+  }
+  
+  .heading {
+    position: relative;
+    left: -400px;
+    top: -80px;
+    font-size: 64px;
+    margin: 0;
+  }
+  
+  .para {
+    position: relative;
+    left: -430px;
+    top: -80px;
+    max-width: 600px;
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .next {
+    position: relative;
+    left: -630px;
+    top: -80px;
+    background-color: transparent;
+    color: black;
+    padding: 10px 20px;
+    border-color: black;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .exit {
+    position: relative;
+    right: -600px;
+    top: -370px;
+    background-color: transparent;
+    color: black;
+    padding: 10px 20px;
+    border-color: black;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+  }

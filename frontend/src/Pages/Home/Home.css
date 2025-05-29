@@ -1,0 +1,25 @@
+.container {
+    margin-top: 2rem !important;
+}
+
+.namecss {
+    text-align: center;
+    /* padding-top: 1rem; */
+}
+
+.ribbonbody {
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 100%;
+}
+
+.phonebtn {
+    margin-bottom: 1rem;
+    align-content: center;
+}
+
+.ribbon {
+    display: flex;
+    justify-content: center;
+}

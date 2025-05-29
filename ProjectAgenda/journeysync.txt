@@ -1,0 +1,10 @@
+journeysync
+
+-> calculation in backend => done
+-> chatroom
+-> verification
+-> user rating
+-> ride sharing/carpooling
+-> uber taxi service for customers
+-> uber taxi service for drivers posting their location and availability
+-> package postel service
