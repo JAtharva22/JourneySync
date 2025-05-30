@@ -4,11 +4,11 @@ const { body, validationResult } = require('express-validator');
 
 const fetchdriver = require('../middleware/fetchdriver');
 const DriverListValidation = require('../validations/driverlistvalidations');
-const addDriver = require('../controllers/driverControllers/addDriver');
-const deleteDriverFromList = require('../controllers/driverControllers/deleteDriver');
-const updateDriverLocationInList = require('../controllers/driverControllers/updateLocation');
-const selectedDriver = require('../controllers/driverControllers/selectedDriver');
-const matchDriverFromList = require('../controllers/driverControllers/matchDriver');
+const addDriver = require('../controllers/DriverControllers/addDriver');
+const deleteDriverFromList = require('../controllers/DriverControllers/deleteDriver');
+const updateDriverLocationInList = require('../controllers/DriverControllers/updateLocation');
+const selectedDriver = require('../controllers/DriverControllers/selectedDriver');
+const matchDriverFromList = require('../controllers/DriverControllers/matchDriver');
 const fetchuser = require('../middleware/fetchuser');
 
 router.post('/adddriverinlist', fetchdriver, DriverListValidation.addDriverValidation, addDriver);

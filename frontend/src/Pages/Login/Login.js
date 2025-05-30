@@ -48,9 +48,7 @@ function Login() {
     };
 
     const handleSubmitRegister = async (e) => {
-
         e.preventDefault();
-
         //post request
         const response = await fetch("http://localhost:5000/api/auth/createuser", {
             method: 'POST',
