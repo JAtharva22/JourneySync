@@ -5,8 +5,8 @@
 /.pnp
 .pnp.js
 
-index.html
-/public
+# index.html
+# /public
 
 # testing
 /coverage
