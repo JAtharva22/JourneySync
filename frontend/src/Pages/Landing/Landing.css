@@ -25,15 +25,16 @@
   
   .heading {
     position: relative;
-    left: -400px;
+    left: -390px;
     top: -80px;
     font-size: 64px;
     margin: 0;
   }
   
   .para {
+    text-align: left;
     position: relative;
-    left: -430px;
+    left: -390px;
     top: -80px;
     max-width: 600px;
     font-size: 24px;
@@ -42,7 +43,7 @@
   
   .next {
     position: relative;
-    left: -630px;
+    left: -620px;
     top: -80px;
     background-color: transparent;
     color: black;

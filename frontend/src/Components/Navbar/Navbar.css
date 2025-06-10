@@ -10,11 +10,12 @@
 .font-color{
   color: indigo !important;
 }
-
 .btncolor{
   background-color: indigo !important;
   color: white !important;
-  border-radius: 50px !important;
+  border-radius: 10px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
 }
 
 /* Profile Picture */
@@ -40,12 +41,25 @@
    margin-right: 10px;
  }
  
- .toggle-change::after {
-   border-top: 0;
-   border-bottom: 0.3em solid;
- }
+.toggle-change::after {
+  border-top: 0;
+  border-bottom: 0.3em solid;
+}
 
- .container-fluid{
-    display: flex !important;
-    gap: 58rem;
- }
+.container-fluid {
+   display: flex !important;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.navbar-nav-container {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.nav-right-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

@@ -22,9 +22,9 @@ function Home() {
 
   return (
     <div className="landing" style={backgroundStyle}>
-      <div className="content">
-        <h1 className='heading'>Welcome Aboard!</h1>
-        <p className='para'>Connecting fellow travellers across the map. <br/> JourneySync allows you to meet neaby users going to the same destination.</p>
+      <div className="content" >
+        <h1 className='heading' style={{ textAlign: 'left' }}>Welcome Aboard!</h1>
+        <p className='para' >Connecting fellow travellers across the map. <br/> JourneySync allows you to meet neaby users going to the same destination.</p>
         <button className='next'>
             {
                 isAuthenticated ? (

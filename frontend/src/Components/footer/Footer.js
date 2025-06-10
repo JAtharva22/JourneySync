@@ -9,11 +9,27 @@ const Footer = () => {
                     <div className="row">
                         <div className="col-xl-3 col-md-6 col-lg-3">
                             <div className="footer_widget">
-                                <h3 className="footer_title">
-                                    <img src='https://github.com/JAtharva22/JourneySync/assets/93152317/0a47c609-46ec-477a-b5a3-9b19838b4b2a' alt="Your Logo" /><br />
-                                    <p className="footer_text">JourneySync was developed and designed for College Project in 2023 with the collaboration
-                                        of a team of three members.</p>
+                                <img
+                                    src={require('./jsync_logo.png')}
+                                    alt="Your Logo"
+                                    className="footer_logo"
+                                    style={{
+                                        width: '60px',
+                                        height: '60px',
+                                        objectFit: 'cover',
+                                        objectPosition: 'center',
+                                        display: 'block',
+                                        margin: '0 auto'
+                                    }}
+                                />
+                                <br />
+                                <h3 className="footer_title" style={{ textAlign: 'center' }}>
+                                    JourneySync
                                 </h3>
+                                <p className="footer_text" style={{ textAlign: 'center' }}>
+                                    JourneySync was developed and designed for College Project in 2023 with the collaboration
+                                    of a team of three members.
+                                </p>
                             </div>
                         </div>
                         <div className="col-xl-3 col-md-6 col-lg-3">
@@ -32,7 +48,7 @@ const Footer = () => {
                                 <h3 className="footer_title">
                                     Address
                                 </h3>
-                                <p className="footer_text"> Noida, Uttar Pradesh <br /> 201301, IN</p>
+                                <p className="footer_text"> Mumbai, Maharashtra <br /> 400016, IN</p>
                             </div>
                         </div>
                         <div className="col-xl-3 col-md-6 col-lg-3">
