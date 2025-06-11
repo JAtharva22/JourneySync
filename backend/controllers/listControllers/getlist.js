@@ -17,7 +17,6 @@ const getlist = async (req, res) => {
 
     // Get the user's source and destination coordinates
     const { src, dest, filterDistance } = req.body;
-    userId: req.user.id;
 
     // Process source coordinates
     let sourceCoords;
@@ -65,7 +64,6 @@ const getlist = async (req, res) => {
     const filteredItems = nearbyItems.filter(
       (item) => item.userId.toString() !== req.user.id
     );
-
     res.json(filteredItems);
   } catch (error) {
     console.error(error.message);
