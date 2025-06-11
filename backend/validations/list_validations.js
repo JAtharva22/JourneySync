@@ -14,6 +14,7 @@ const updateListValidation = [
 const getListValidation = [
   body("src", "Enter a valid source"),
   body("dest", "Enter a valid destination"),
+  body("filterDistance", "Enter a valid filter distance").isNumeric(),
 ];
 
 module.exports = {

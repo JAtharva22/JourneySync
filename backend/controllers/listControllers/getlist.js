@@ -16,7 +16,7 @@ const getlist = async (req, res) => {
     }
 
     // Get the user's source and destination coordinates
-    const { src, dest } = req.body;
+    const { src, dest, filterDistance } = req.body;
     userId: req.user.id;
 
     // Process source coordinates
@@ -41,20 +41,20 @@ const getlist = async (req, res) => {
         .json({ error: "Destination place_id is required" });
     }
 
-    // Find items within 0.1 km from both source and destination
+    // Find items within filterDistance km from both source and destination
     const nearbyItems = await List.find({
       $and: [
         {
           src: {
             $geoWithin: {
-              $centerSphere: [sourceCoords, 0.1 / 6371], // 0.1 km radius for source
+              $centerSphere: [sourceCoords, filterDistance / 6371], // filterDistance km radius for source
             },
           },
         },
         {
           dest: {
             $geoWithin: {
-              $centerSphere: [destCoords, 0.1 / 6371], // 0.1 km radius for destination
+              $centerSphere: [destCoords, filterDistance / 6371], // filterDistance km radius for destination
             },
           },
         },

@@ -1,98 +1,139 @@
 .container {
-    margin-top: 2rem !important;
+  margin-top: 2rem !important;
 }
 
 .namecss {
-    text-align: center;
-    /* padding-top: 1rem; */
+  text-align: center;
+  /* padding-top: 1rem; */
 }
 
 .ribbonbody {
-    border: 5px solid white;
-    border-radius: 10px;
-    padding: 1rem;
-    width: 100%;
+  border: 5px solid white;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 100%;
 }
 
 .phonebtn {
-    margin-bottom: 1rem;
-    align-content: center;
+  margin-bottom: 1rem;
+  align-content: center;
 }
 
 .ribbon {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 /* New styles for custom location search */
 .form-group {
-    position: relative;
-    margin-bottom: 20px;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 .location-search-input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .location-search-input:focus {
-    outline: none;
-    border-color: #4d90fe;
-    box-shadow: 0 0 8px rgba(77, 144, 254, 0.3);
+  outline: none;
+  border-color: #4d90fe;
+  box-shadow: 0 0 8px rgba(77, 144, 254, 0.3);
 }
 
 .autocomplete-dropdown-container {
-    position: absolute;
-    width: 100%;
-    max-height: 250px;
-    overflow-y: auto;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    z-index: 1000;
-    margin-top: 5px;
+  position: absolute;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 5px;
 }
 
 .suggestion-item {
-    padding: 12px 15px;
-    cursor: pointer;
-    border-bottom: 1px solid #f0f0f0;
-    transition: background-color 0.2s;
-    font-size: 15px;
-    color: #333;
+  padding: 12px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+  font-size: 15px;
+  color: #333;
 }
 
 .suggestion-item:hover {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 .suggestion-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 /* Loading spinner */
 .autocomplete-dropdown-container > div {
-    padding: 12px 15px;
-    color: #6c757d;
-    font-style: italic;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  padding: 12px 15px;
+  color: #6c757d;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Improve button styling */
 .btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
+  background-color: #28a745;
+  border-color: #28a745;
 }
 
 .btn-success:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+/* Slider container */
+.slider-container {
+  position: relative;
+  margin: 20px 0;
+}
+
+/* Custom slider styles */
+.custom-slider {
+  width: 35%;
+  height: 8px;
+  border-radius: 4px;
+  background: #d3d3d3;
+  outline: none;
+}
+
+/* Slider thumb */
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+/* Value display above thumb */
+.slider-value {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
 }

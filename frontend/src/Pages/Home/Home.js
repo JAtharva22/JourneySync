@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 function Home() {
     const [authtoken, setAuthtoken] = useState(Cookies.get('authToken'));
     const [searching, setSearching] = useState(false);
+    const [filterDistance, setFilterDistance] = useState(0.1); // Default distance in km
 
     const [listdata, setListdata] = useState([{
             userId: "654a1669d81865efe35106c3",
@@ -175,7 +176,7 @@ function Home() {
         const response = await fetch("http://localhost:5000/api/list/getlist", {
             method: 'POST',
             body: JSON.stringify({
-                src, dest
+                src, dest, filterDistance
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -308,6 +309,25 @@ function Home() {
                                     ))}
                             </div>
                         )}
+                    </div>
+
+                    {/* Distance filter slider */}
+                    <div className="form-group">
+                      <label>Filter by distance (meters)</label>
+                      <div className="slider-container">
+                        <input
+                          type="range"
+                          min="0.05"
+                          max="2"
+                          step="0.05"
+                          value={filterDistance}
+                          onChange={(e) => setFilterDistance(parseFloat(e.target.value))}
+                          className="custom-slider"
+                        />
+                        <span className="slider-value">
+                          {Math.round(filterDistance * 1000)} m
+                        </span>
+                      </div>
                     </div>
 
                     {/* search button */}
