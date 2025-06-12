@@ -10,13 +10,20 @@ const User = require(path.resolve(__dirname, '../../models/User'));
 const updateuser = async (req, res) => {
    try {
       // Get the updated fields from the request body
-      const { name, age, phone } = req.body;
+      const { name, age, phone, isVerified } = req.body;
 
       // Create a new user object with the updated fields
       const updatedUser = {};
       if (name) updatedUser.name = name;
       if (age) updatedUser.age = age;
       if (phone) updatedUser.phone = phone;
+      if (isVerified){
+         const checkIsVerified = await User.findOne({ _id: req.user.id });
+         if (checkIsVerified.isVerified === "pending") {
+            return res.status(400).json({ success: false, error: "User is already pending verification" });
+         }
+         updatedUser.isVerified = "pending";
+      }
 
       // Update the user information in the database
       const user = await User.findOneAndUpdate(
@@ -34,6 +41,7 @@ const updateuser = async (req, res) => {
                email: user.email,
                age: user.age,
                phone: user.phone,
+               isVerified: user.isVerified,
             }];
 
       res.json({ success: true, responseUser });

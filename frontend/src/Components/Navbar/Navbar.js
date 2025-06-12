@@ -54,14 +54,11 @@ const Navbar = () => {
               </ul>
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0 profile-menu">
                 {authtoken && (
-                  <li className="nav-item dropdown">
+                  <li className="nav-item">
                     <a
-                      className="nav-link dropdown-toggle"
+                      className="nav-link"
                       href="/profile"
-                      id="navbarDropdown"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
+                      id="navbarProfileLink"
                     >
                       <div className="profile-pic">
                         <img

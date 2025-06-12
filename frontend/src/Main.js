@@ -38,6 +38,7 @@ function Main() {
         {isAuthenticated ? (
           <>
             <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Landing />} />
             <Route path="/search" element={<Home />} />
             <Route path="/profile" element={<ProfilePage />} />
             {/* <Route path="/chat" element={<Chat />} /> */}
@@ -46,6 +47,8 @@ function Main() {
           <>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/search" element={<Login />} />
+            <Route path="/profile" element={<Landing />} />
           </>
         )}
       </Routes>
