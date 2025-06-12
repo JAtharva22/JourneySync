@@ -9,7 +9,7 @@ const User = require(path.resolve(__dirname, '../../models/User'));
 
 const getuserbyid = async (req, res) => {
     try {
-        const userId = req.header('userId');
+        const userId = req.user.id; // Assuming user ID is stored in req.user.id
         const user = await User.findById(userId).select("-password")
         res.send(user)
     } catch (error) {

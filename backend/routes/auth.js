@@ -10,9 +10,6 @@ const updateuser = require("../controllers/authControllers/updateuser");
 const updatePassword = require("../controllers/authControllers/updatepassword");
 const deleteUser = require("../controllers/authControllers/deleteuser");
 const authValidations = require("../validations/auth_validations");
-const {
-  deleteUserValidation,
-} = require("../validations/auth_deleteuser_validations");
 
 // ROUTE 1: Create a User using: POST "/api/auth/createuser". No login required
 router.post("/createuser", authValidations.createUserValidation, createuser);
@@ -24,7 +21,7 @@ router.post("/login", authValidations.loginUserValidation, loginuser);
 router.get("/getuserbyid", fetchuser, getuserbyid);
 
 // ROUTE 4: Get loggedin User Details using: POST "/api/auth/getuser". Login required
-router.put("/updateuser", fetchuser, updateuser);
+router.put("/updateuser", authValidations.updateUserValidation, fetchuser, updateuser);
 
 // ROUTE 5: Allows a logged-in user to change their password: POST "/api/auth/update-password". Login required
 router.post(
@@ -35,6 +32,6 @@ router.post(
 );
 
 // ROUTE 6: Delete a user's profile using: DELETE "/api/users/:id"
-router.delete("/users/:id", deleteUserValidation, deleteUser);
+router.delete("/deleteuser", fetchuser, deleteUser);
 
 module.exports = router;

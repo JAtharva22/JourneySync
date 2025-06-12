@@ -4,7 +4,7 @@ const User = require(path.resolve(__dirname, "../../models/User"));
 // Delete a user's profile by ID
 const deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user.id;
     const user = await User.findByIdAndDelete(userId);
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });

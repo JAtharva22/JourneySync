@@ -10,12 +10,13 @@ const User = require(path.resolve(__dirname, '../../models/User'));
 const updateuser = async (req, res) => {
    try {
       // Get the updated fields from the request body
-      const { name, age } = req.body;
+      const { name, age, phone } = req.body;
 
       // Create a new user object with the updated fields
       const updatedUser = {};
       if (name) updatedUser.name = name;
       if (age) updatedUser.age = age;
+      if (phone) updatedUser.phone = phone;
 
       // Update the user information in the database
       const user = await User.findOneAndUpdate(
@@ -32,6 +33,7 @@ const updateuser = async (req, res) => {
                name: user.name,
                email: user.email,
                age: user.age,
+               phone: user.phone,
             }];
 
       res.json({ success: true, responseUser });

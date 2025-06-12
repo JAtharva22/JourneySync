@@ -1,88 +1,122 @@
-body{
-    margin: 0;
-    padding: 0;
+/* Modern styling with Bootstrap 5 enhancements */
+.container {
+  max-width: 800px;
+  padding: 20px;
 }
 
-.container-user{
-    
-    box-shadow: 0 4px 8px 0 rgba(21, 21, 21, .2);
+.card {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-.proheader{
-    background-color: indigo;
-    color: white !important;
-    box-shadow: 0 4px 8px 0 rgba(21, 21, 21, .5);
+.card-header {
+  padding: 1.5rem;
+  border-bottom: none;
+  background: linear-gradient(135deg, #4a00e0, #8e2de2);
 }
 
-.emailspace{
-    margin-top:2rem;
+.nav-tabs {
+  border-bottom: 1px solid #dee2e6;
 }
 
-.emailcantchange{
-    /* margin-top:-10px; */
-    color: indigo
+.nav-tabs .nav-link {
+  font-weight: 500;
+  padding: 1rem 1.5rem;
+  border: none;
+  color: #6c757d;
+  transition: all 0.2s;
 }
 
-label{
-    font-size: 0.95rem;
-    color: gray;
+.nav-tabs .nav-link.active {
+  color: #4a00e0;
+  background-color: transparent;
+  border-bottom: 3px solid #4a00e0;
 }
 
-.submit{
-    margin-top: 1.1rem;
-    margin-bottom: 2em;
-    background-color: blue !important;
-    color: white !important;
+.nav-tabs .nav-link:hover:not(.active) {
+  color: #4a00e0;
+  background-color: rgba(74, 0, 224, 0.05);
 }
 
-.discard{
-    margin-top: 1.1rem;
-    margin-bottom: 2em;
-    background-color: gray !important;
+.tab-content {
+  padding: 1.5rem;
 }
 
-#h3verify{
-    margin: 2rem 0;
+.alert {
+  border-radius: 0.5rem;
 }
 
-
-input[type="file"]::file-selector-button {
-    border-radius: 4px;
-    padding: 0 16px;
-    height: 40px;
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.16);
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
-    margin-right: 16px;
-    transition: background-color 200ms;
+.btn-primary {
+  background-color: #4a00e0;
+  border-color: #4a00e0;
 }
 
-/* file upload button hover state */
-input[type="file"]::file-selector-button:hover {
-    background-color: #f3f4f6;
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #3a00b0;
+  border-color: #3a00b0;
 }
 
-/* file upload button active state */
-input[type="file"]::file-selector-button:active {
-    background-color: #e5e7eb;
+.btn-outline-danger:hover {
+  color: white;
 }
 
-.readonlyemail{
-    color: #b6ade7;
+.form-control:focus {
+  border-color: #4a00e0;
+  box-shadow: 0 0 0 0.2rem rgba(74, 0, 224, 0.25);
 }
 
-.verified{
-    background-color: lightgreen;
-    border: 0.5rem solid green ;
-    border-radius: 10px;
-    color: green;
+.card.border-danger {
+  border-width: 2px;
+}
+
+/* Profile picture preview */
+.img-preview-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.img-preview {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-tabs .nav-link {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .card-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .tab-content {
     padding: 1rem;
+  }
 }
-.pendingverification{
-    background-color: yellow;
-    border: 0.5rem solid darkorange ;
-    border-radius: 10px;
-    color: darkorange;
-    padding: 1rem;
+
+/* Verification status */
+.verification-pending {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  color: #856404;
+}
+
+.verification-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+/* Delete account section */
+.delete-section {
+  background-color: #f8d7da;
+  border-left: 4px solid #dc3545;
+  padding: 15px;
+  border-radius: 0 0.25rem 0.25rem 0;
 }

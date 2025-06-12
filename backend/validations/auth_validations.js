@@ -16,6 +16,12 @@ const loginUserValidation = [
   body("password", "Password cannot be blank").exists(),
 ];
 
+const updateUserValidation = [
+  body("name", "Enter a valid name").isLength({ min: 3 }).optional(),
+  body("email", "Enter a valid email").isEmail().optional(),
+  body("age", "Age must be a positive number").isInt({ min: 10, max: 150 }).optional(),
+];
+
 const updatePasswordValidation = [
   body("currentPassword", "Current password is required")
     .exists()
@@ -28,5 +34,6 @@ const updatePasswordValidation = [
 module.exports = {
   createUserValidation,
   loginUserValidation,
+  updateUserValidation,
   updatePasswordValidation
 };
