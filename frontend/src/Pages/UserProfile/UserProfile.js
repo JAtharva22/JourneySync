@@ -5,7 +5,7 @@ import { Form, Button, Modal, Tab, Tabs, Alert, Image } from "react-bootstrap";
 
 function UserProfile() {
   const [activeTab, setActiveTab] = useState("profile");
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -29,7 +29,7 @@ function UserProfile() {
     const fetchUserDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/auth/getuserbyid",
+          "http://localhost:5000/api/auth/getuserself",
           {
             method: "GET",
             headers: {
@@ -143,14 +143,14 @@ function UserProfile() {
 
       if (response.status === 200) {
         const updatedUser = await response.json();
-        setUserData({
+        setUserData([{
           ...userData,
           name: updatedUser.name,
           email: updatedUser.email,
           age: updatedUser.age,
           phone: updatedUser.phone,
           isVerified: updatedUser.isVerified,
-        });
+        }]);
         showSuccessAlert("Profile updated successfully!");
       } else {
         const errorData = await response.json();
@@ -191,7 +191,7 @@ function UserProfile() {
           },
         }
       );
-      
+
       if (response.ok) {
         alert("Password updated successfully!");
         setPasswordData({

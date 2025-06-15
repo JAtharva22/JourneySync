@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const List = require(path.resolve(__dirname, "../../models/List"));
+const User = require(path.resolve(__dirname, "../../models/User"));
 const { validationResult } = require("express-validator");
 const getCoordinatesByPlaceId = require(path.resolve(
   __dirname,
@@ -62,9 +63,17 @@ const getlist = async (req, res) => {
 
     // Filter out documents with userId equal to req.user.id
     const filteredItems = nearbyItems.filter(
-      (item) => item.userId.toString() !== req.user.id
+      (item) => item.userId.toString() != req.user.id
     );
-    res.json(filteredItems);
+    
+    const itemsWithUser = await Promise.all(
+      filteredItems.map(async (item) => {
+        const user = await User.findById(item.userId).select("-password").lean();
+        return { ...item.toObject(), user };
+      })
+    );
+    
+    res.json(itemsWithUser);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");

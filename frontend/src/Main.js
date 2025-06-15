@@ -47,7 +47,7 @@ function Main() {
           <>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/search" element={<Login />} />
+            {/* <Route path="/search" element={<Login />} /> */}
             <Route path="/profile" element={<Landing />} />
           </>
         )}

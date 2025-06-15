@@ -2,6 +2,14 @@
   margin-top: 2rem !important;
 }
 
+.verified-background {
+  background-color: #d4edda; /* Light green */
+}
+
+.unverified-background {
+  background-color: #ffffff; /* White */
+}
+
 .namecss {
   text-align: center;
   /* padding-top: 1rem; */

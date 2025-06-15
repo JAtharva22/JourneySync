@@ -5,7 +5,7 @@ const { body, validationResult } = require("express-validator");
 var fetchuser = require("../middleware/fetchuser");
 const createuser = require("../controllers/authControllers/createuser");
 const loginuser = require("../controllers/authControllers/loginuser");
-const getuserbyid = require("../controllers/authControllers/getuserbyid");
+const getuserself = require("../controllers/authControllers/getuserself");
 const updateuser = require("../controllers/authControllers/updateuser");
 const updatePassword = require("../controllers/authControllers/updatepassword");
 const deleteUser = require("../controllers/authControllers/deleteuser");
@@ -18,10 +18,15 @@ router.post("/createuser", authValidations.createUserValidation, createuser);
 router.post("/login", authValidations.loginUserValidation, loginuser);
 
 // ROUTE 3: Get loggedin User Details using: POST "/api/auth/getuser". Login required
-router.get("/getuserbyid", fetchuser, getuserbyid);
+router.get("/getuserself", fetchuser, getuserself);
 
 // ROUTE 4: Get loggedin User Details using: POST "/api/auth/getuser". Login required
-router.put("/updateuser", authValidations.updateUserValidation, fetchuser, updateuser);
+router.put(
+  "/updateuser",
+  authValidations.updateUserValidation,
+  fetchuser,
+  updateuser
+);
 
 // ROUTE 5: Allows a logged-in user to change their password: POST "/api/auth/update-password". Login required
 router.post(
